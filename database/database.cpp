@@ -15,7 +15,7 @@ Record::Record(std::vector<std::string> _Fields, std::vector<std::string> _Vals)
     }
 }
 
-Record::Record(Record &rhs) {
+Record::Record(const Record &rhs) {
     Data = rhs.Data;
     Fields = rhs.Fields;
 }
@@ -37,7 +37,7 @@ void Record::EraseRecordField(std::string _Field) {
 void Record::MaintainRecord(std::set<std::string> S) {
     std::set<std::string> tmp;
     tmp.clear();
-    std::set_difference(Fields.begin(), Fields.end(),S.begin(), S.end(), std::inserter(tmp, tmp.begin()));
+    std::set_difference(Fields.begin(), Fields.end(), S.begin(), S.end(), std::inserter(tmp, tmp.begin()));
     for (auto it = tmp.begin(); it != tmp.end(); it++)
         Data.erase((*it));
 }
@@ -64,7 +64,7 @@ Table::Table() {
     PrimaryKey = 0;
 }
 
-Table::Table(Table &rhs) {
+Table::Table(const Table &rhs) {
     PrimaryKey = rhs.PrimaryKey;
     Fields = rhs.Fields;
     SearchRecord = rhs.SearchRecord;
@@ -88,7 +88,7 @@ int Table::GetLastestRecord() {
 
 int Table::FilterForRecord(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
     for (int i = 0; i < PrimaryKey; i++) {
-        if(!Records.count(i))
+        if (!Records.count(i))
             continue;
         Records[i].MaintainRecord(Fields);
         bool f = true;
@@ -108,7 +108,7 @@ std::vector<int> Table::FilterForRecords(std::vector<std::string> _Fields, std::
     std::vector<int> tmp;
     tmp.clear();
     for (int i = 0; i < PrimaryKey; i++) {
-        if(!Records.count(i))
+        if (!Records.count(i))
             continue;
         Records[i].MaintainRecord(Fields);
         bool f = true;
@@ -132,7 +132,7 @@ void Table::AddRecord() {
 void Table::AddRecord(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
     PrimaryKey++;
     Records[PrimaryKey] = Record(_Fields, _Vals);
-    for(int i=0;i<_Fields.size();i++)
+    for (int i = 0; i < _Fields.size(); i++)
         SearchRecord[_Fields[i]].insert(PrimaryKey);
 }
 
@@ -145,7 +145,7 @@ void Table::EraseRecord(int pk) {
 
 void Table::EraseRecord(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
     int tmp = FilterForRecord(_Fields, _Vals);
-    if(tmp==-1)
+    if (tmp == -1)
         return;
     EraseRecord(tmp);
 }
@@ -153,8 +153,8 @@ void Table::EraseRecord(std::vector<std::string> _Fields, std::vector<std::strin
 void Table::EraseRecords(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
     std::vector<int> tmp;
     tmp.clear();
-    tmp=FilterForRecords(_Fields,_Vals);
-    for(int i=0;i<tmp.size();i++)
+    tmp = FilterForRecords(_Fields, _Vals);
+    for (int i = 0; i < tmp.size(); i++)
         EraseRecord(tmp[i]);
 }
 
@@ -163,139 +163,164 @@ void Table::AddField(std::string _Field) {
     Fields.insert(_Field);
     SearchRecord.clear();
 }
+
 void Table::AddFields(std::vector<std::string> _Fields) {
-    for(int i=0;i<_Fields.size();i++)
+    for (int i = 0; i < _Fields.size(); i++)
         AddField(_Fields[i]);
 }
+
 void Table::EraseField(std::string _Field) {
     Fields.erase(_Field);
     SearchRecord.erase(_Field);
 }
+
 void Table::EraseFields(std::vector<std::string> _Fields) {
-    for(int i=0;i<_Fields.size();i++)
+    for (int i = 0; i < _Fields.size(); i++)
         EraseField(_Fields[i]);
 }
+
 void Table::AddRecordField(int pk, std::string _Field, std::string _Val) {
-    if(!Records.count(pk))
+    if (!Records.count(pk))
         return;
     Records[pk].MaintainRecord(Fields);
-    Records[pk].AddRecordField(_Field,_Val);
+    Records[pk].AddRecordField(_Field, _Val);
     SearchRecord[_Field].insert(pk);
 }
+
 void Table::AddRecordField(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals, std::string _Field,
                            std::string _Val) {
-    int tmp=FilterForRecord(_SrcFields,_SrcVals);
-    if(tmp==-1)
+    int tmp = FilterForRecord(_SrcFields, _SrcVals);
+    if (tmp == -1)
         return;
-    AddRecordField(tmp,_Field,_Val);
+    AddRecordField(tmp, _Field, _Val);
 }
+
 void Table::AddRecordsField(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals, std::string _Field,
                             std::string _Val) {
-    std::vector<int> tmp=FilterForRecords(_SrcFields,_SrcVals);
-    for(int i=0;i<tmp.size();i++)
-        AddRecordField(tmp[i],_Field,_Val);
+    std::vector<int> tmp = FilterForRecords(_SrcFields, _SrcVals);
+    for (int i = 0; i < tmp.size(); i++)
+        AddRecordField(tmp[i], _Field, _Val);
 }
+
 void Table::AddRecordFields(int pk, std::vector<std::string> _Fields, std::vector<std::string> _Data) {
-    if(!Records.count(pk))
+    if (!Records.count(pk))
         return;
-    for(int i=0;i<_Fields.size();i++)
-        AddRecordField(pk,_Fields[i],_Data[i]);
+    for (int i = 0; i < _Fields.size(); i++)
+        AddRecordField(pk, _Fields[i], _Data[i]);
 }
 
 void Table::AddRecordFields(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals,
                             std::vector<std::string> _Fields, std::vector<std::string> _Data) {
-    int tmp=FilterForRecord(_SrcFields,_SrcVals);
-    if(tmp==-1)
+    int tmp = FilterForRecord(_SrcFields, _SrcVals);
+    if (tmp == -1)
         return;
-    AddRecordFields(tmp,_Fields,_Data);
+    AddRecordFields(tmp, _Fields, _Data);
 }
+
 void Table::AddRecordsFields(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals,
                              std::vector<std::string> _Fields, std::vector<std::string> _Data) {
     std::vector<int> tmp;
     tmp.clear();
-    tmp=FilterForRecords(_SrcFields,_SrcVals);
-    for(int i=0;i<tmp.size();i++){
-        AddRecordFields(tmp[i],_Fields,_Data);
+    tmp = FilterForRecords(_SrcFields, _SrcVals);
+    for (int i = 0; i < tmp.size(); i++) {
+        AddRecordFields(tmp[i], _Fields, _Data);
     }
 }
+
 void Table::EraseRecordField(int pk, std::string _Field) {
-    if(!Records.count(pk))
+    if (!Records.count(pk))
         return;
     SearchRecord[_Field].erase(pk);
     Records[pk].MaintainRecord(Fields);
     Records[pk].EraseRecordField(_Field);
 }
+
 void Table::EraseRecordField(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals,
                              std::string _Field) {
-    int tmp=FilterForRecord(_SrcFields,_SrcVals);
-    if(tmp==-1)
+    int tmp = FilterForRecord(_SrcFields, _SrcVals);
+    if (tmp == -1)
         return;
-    EraseRecordField(tmp,_Field);
+    EraseRecordField(tmp, _Field);
 }
+
 void Table::EraseRecordsField(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals,
                               std::string _Field) {
     std::vector<int> tmp;
     tmp.clear();
-    tmp=FilterForRecords(_SrcFields,_SrcVals);
-    for(int i=0;i<tmp.size();i++)
-        EraseRecordField(tmp[i],_Field);
+    tmp = FilterForRecords(_SrcFields, _SrcVals);
+    for (int i = 0; i < tmp.size(); i++)
+        EraseRecordField(tmp[i], _Field);
 }
+
 void Table::EraseRecordFields(int pk, std::vector<std::string> _Fields) {
-    if(!Records.count(pk))
+    if (!Records.count(pk))
         return;
-    for(int i=0;i<_Fields.size();i++){
+    for (int i = 0; i < _Fields.size(); i++) {
         Records[pk].EraseRecordField(_Fields[i]);
         SearchRecord[_Fields[i]].erase(pk);
     }
 }
+
 void Table::EraseRecordFields(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals,
                               std::vector<std::string> _Fields) {
-    int tmp=FilterForRecord(_SrcFields,_SrcVals);
-    if(tmp==-1)
+    int tmp = FilterForRecord(_SrcFields, _SrcVals);
+    if (tmp == -1)
         return;
-    EraseRecordFields(tmp,_Fields);
+    EraseRecordFields(tmp, _Fields);
 }
 
 void Table::EraseRecordsFields(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals,
                                std::vector<std::string> _Fields) {
     std::vector<int> tmp;
     tmp.clear();
-    tmp=FilterForRecords(_SrcFields,_SrcVals);
-    for(int i=0;i<tmp.size();i++)
-        EraseRecordFields(tmp[i],_Fields);
+    tmp = FilterForRecords(_SrcFields, _SrcVals);
+    for (int i = 0; i < tmp.size(); i++)
+        EraseRecordFields(tmp[i], _Fields);
 }
+
 std::set<std::string> Table::GetAllFields() {
     return Fields;
 }
+void Table::Maintain(std::string _Field) {
+    std::set<int> tmp;
+    tmp.clear();
+    for(auto it=SearchRecord[_Field].begin();it!=SearchRecord[_Field].end();it++)
+        if(!Records.count(*it))
+            tmp.insert((*it));
+    for(auto it=tmp.begin();it!=tmp.end();it++)
+        SearchRecord[_Field].erase((*it));
+}
 std::set<int> Table::GetAllRecordsWithSpecialField(std::string _Field) {
-    if(!Fields.count(_Field)){
+    if (!Fields.count(_Field)) {
         std::set<int> tmp;
         tmp.clear();
         return tmp;
     }
+    Maintain(_Field);
     return SearchRecord[_Field];
 }
+
 std::set<int> Table::GetAllRecordsWithSpecialFields(std::vector<std::string> _Fields) {
     std::set<int> tmp;
     tmp.clear();
-    bool f=true;
-    for(int i=0;i<_Fields.size();i++){
-        if(!Fields.count(_Fields[i]))
+    bool f = true;
+    for (int i = 0; i < _Fields.size(); i++) {
+        if (!Fields.count(_Fields[i]))
             continue;
-        if(f){
-            f= false;
-            tmp=GetAllRecordsWithSpecialField(_Fields[i]);
-        }
-        else{
-            std::set<int> tmp3=tmp;
+        if (f) {
+            f = false;
+            tmp = GetAllRecordsWithSpecialField(_Fields[i]);
+        } else {
+            std::set<int> tmp3 = tmp;
             tmp.clear();
-            std::set<int> tmp2=GetAllRecordsWithSpecialField(_Fields[i]);
-            std::set_intersection(tmp3.begin(),tmp3.end(),tmp2.begin(),tmp2.end(),std::inserter(tmp,tmp.begin()));
+            std::set<int> tmp2 = GetAllRecordsWithSpecialField(_Fields[i]);
+            std::set_intersection(tmp3.begin(), tmp3.end(), tmp2.begin(), tmp2.end(), std::inserter(tmp, tmp.begin()));
         }
     }
 }
+
 std::map<std::string, std::string> Table::GetRecord(int pk) {
-    if(!Records.count(pk)){
+    if (!Records.count(pk)) {
         std::map<std::string, std::string> tmp;
         tmp.clear();
         return tmp;
@@ -303,51 +328,76 @@ std::map<std::string, std::string> Table::GetRecord(int pk) {
     Records[pk].MaintainRecord(Fields);
     return Records[pk].GetAllFields();
 }
+
 std::map<std::string, std::string> Table::GetRecord(std::vector<std::string> _SrcFields,
                                                     std::vector<std::string> _SrcVals) {
-    int tmp=FilterForRecord(_SrcFields,_SrcVals);
-    if(tmp==-1){
+    int tmp = FilterForRecord(_SrcFields, _SrcVals);
+    if (tmp == -1) {
         std::map<std::string, std::string> TMP;
         TMP.clear();
         return TMP;
     }
     return GetRecord(tmp);
 }
+
 std::string Table::GetRecordField(int pk, std::string _Field) {
-    if(!Records.count(pk))
+    if (!Records.count(pk))
         return "";
     Records[pk].MaintainRecord(Fields);
     return Records[pk].GetRecordField(_Field);
 }
+
 std::string Table::GetRecordField(std::vector<std::string> _SrcFields, std::vector<std::string> _SrcVals,
                                   std::string _Field) {
-    int tmp=FilterForRecord(_SrcFields,_SrcVals);
-    if(tmp==-1){
+    int tmp = FilterForRecord(_SrcFields, _SrcVals);
+    if (tmp == -1) {
         return "";
     }
-    return GetRecordField(tmp,_Field);
+    return GetRecordField(tmp, _Field);
 }
+
 std::map<std::string, std::string> Table::GetRecordFields(int pk, std::vector<std::string> _Fields) {
     std::map<std::string, std::string> tmp;
     tmp.clear();
-    if(!Records.count(pk))
+    if (!Records.count(pk))
         return tmp;
     Records[pk].MaintainRecord(Fields);
-    for(int i=0;i<_Fields.size();i++)
-        tmp[_Fields[i]]=Records[pk].GetRecordField(_Fields[i]);
+    for (int i = 0; i < _Fields.size(); i++)
+        tmp[_Fields[i]] = Records[pk].GetRecordField(_Fields[i]);
     return tmp;
 }
+
 std::map<std::string, std::string> Table::GetRecordFields(std::vector<std::string> _SrcFields,
                                                           std::vector<std::string> _SrcVals,
                                                           std::vector<std::string> _Fields) {
     std::map<std::string, std::string> tmp;
     tmp.clear();
-    int pk=FilterForRecord(_SrcFields,_SrcVals);
-    if(pk==-1){
+    int pk = FilterForRecord(_SrcFields, _SrcVals);
+    if (pk == -1) {
         return tmp;
     }
     Records[pk].MaintainRecord(Fields);
-    for(int i=0;i<_Fields.size();i++)
-        tmp[_Fields[i]]=Records[pk].GetRecordField(_Fields[i]);
+    for (int i = 0; i < _Fields.size(); i++)
+        tmp[_Fields[i]] = Records[pk].GetRecordField(_Fields[i]);
     return tmp;
+}
+
+Data_Base::Data_Base() {
+
+}
+Data_Base::Data_Base(const Data_Base &rhs) {
+    Tables=rhs.Tables;
+}
+Data_Base::~Data_Base() {
+
+}
+
+void Data_Base::NewTable(std::string TableName) {
+    Tables[TableName]=Table();
+}
+void Data_Base::NewTable(std::string TableName, std::vector<std::string> _Fields) {
+    Tables[TableName]=Table(_Fields);
+}
+void Data_Base::EraseTable(std::string TableName) {
+    Tables.erase(TableName);
 }

@@ -19,7 +19,7 @@ public:
 
     Record(std::vector<std::string> _Fields, std::vector<std::string> _Vals);
 
-    Record(Record &rhs);
+    Record(const Record &rhs);
 
     ~Record();
 
@@ -69,7 +69,7 @@ class Table {
 public:
     Table();
 
-    Table(Table &rhs);
+    Table(const Table &rhs);
 
     Table(std::vector<std::string> _Fields);
 
@@ -127,6 +127,7 @@ public:
      * @param _Vals
      */
     void EraseRecords(std::vector<std::string> _Fields, std::vector<std::string> _Vals);
+
     /***
      * @brief 在表中新增一条字段
      * @param _Field
@@ -147,13 +148,14 @@ public:
      * @param _Fields
      */
     void EraseFields(std::vector<std::string> _Fields);
+
     /***
      * @brief 向pk记录中添加一个字段
      * @param pk
      * @param _Field
      * @param _Val
      */
-    void AddRecordField(int pk,std::string _Field,std::string _Val); /// 给一条记录添加一条字段
+    void AddRecordField(int pk, std::string _Field, std::string _Val); /// 给一条记录添加一条字段
     /***
      * @brief 向符合条件的第一条记录中添加一个字段
      * @param _SrcFields
@@ -165,6 +167,7 @@ public:
                         std::vector<std::string> _SrcVals,
                         std::string _Field,
                         std::string _Val);
+
     /***
      * @brief 向符合条件的全部记录中添加一个字段
      * @param _SrcFields
@@ -173,16 +176,18 @@ public:
      * @param _Val
      */
     void AddRecordsField(std::vector<std::string> _SrcFields,
-                        std::vector<std::string> _SrcVals,
-                        std::string _Field,
-                        std::string _Val);
+                         std::vector<std::string> _SrcVals,
+                         std::string _Field,
+                         std::string _Val);
+
     /***
      * @brief 向pk记录中添加多条字段
      * @param pk
      * @param _Fields
      * @param _Data
      */
-    void AddRecordFields(int pk,std::vector<std::string> _Fields,std::vector<std::string> _Data);
+    void AddRecordFields(int pk, std::vector<std::string> _Fields, std::vector<std::string> _Data);
+
     /***
      * @brief 向符合条件的第一条记录中添加多条字段
      * @param _SrcFields
@@ -194,6 +199,7 @@ public:
                          std::vector<std::string> _SrcVals,
                          std::vector<std::string> _Fields,
                          std::vector<std::string> _Data);
+
     /***
      * @brief 向所有符合条件的记录中添加多条字段
      * @param _SrcFields
@@ -202,15 +208,17 @@ public:
      * @param _Data
      */
     void AddRecordsFields(std::vector<std::string> _SrcFields,
-                         std::vector<std::string> _SrcVals,
-                         std::vector<std::string> _Fields,
-                         std::vector<std::string> _Data);
+                          std::vector<std::string> _SrcVals,
+                          std::vector<std::string> _Fields,
+                          std::vector<std::string> _Data);
+
     /**
      * @brief 删除pk记录的_Field字段
      * @param pk
      * @param _Field
      */
-    void EraseRecordField(int pk,std::string _Field);
+    void EraseRecordField(int pk, std::string _Field);
+
     /***
      * @brief 删除符合条件的第一条记录的_Field字段
      * @param _SrcFields
@@ -220,6 +228,7 @@ public:
     void EraseRecordField(std::vector<std::string> _SrcFields,
                           std::vector<std::string> _SrcVals,
                           std::string _Field);
+
     /***
      * @brief 删除所有符合条件的记录的_Field字段
      * @param _SrcFields
@@ -227,14 +236,15 @@ public:
      * @param _Fields
      */
     void EraseRecordsField(std::vector<std::string> _SrcFields,
-                          std::vector<std::string> _SrcVals,
-                          std::string _Field);
+                           std::vector<std::string> _SrcVals,
+                           std::string _Field);
+
     /***
      * @brief 删除pk记录的多条字段
      * @param pk
      * @param _Fields
      */
-    void EraseRecordFields(int pk,std::vector<std::string> _Fields); /// 删除一条记录的某个字段
+    void EraseRecordFields(int pk, std::vector<std::string> _Fields); /// 删除一条记录的某个字段
     /***
      * @brief 删除第一条符合条件的记录的多条字段
      * @param _SrcFields
@@ -252,13 +262,18 @@ public:
      * @param _Fields
      */
     void EraseRecordsFields(std::vector<std::string> _SrcFields,
-                           std::vector<std::string> _SrcVals,
-                           std::vector<std::string> _Fields); /// 删除多条记录的某个字段
+                            std::vector<std::string> _SrcVals,
+                            std::vector<std::string> _Fields); /// 删除多条记录的某个字段
     /***
      * @brief 获取当前表的全部字段
      * @return
      */
     std::set<std::string> GetAllFields(void); /// 获取当前表的全部字段
+    /***
+     * @brief 更新searchrecord记录
+     * @param _Field
+     */
+    void Maintain(std::string _Field);
     /***
      * @brief 获取当前表中有某个field的全部记录
      * @param _Field
@@ -271,6 +286,7 @@ public:
      * @return
      */
     std::set<int> GetAllRecordsWithSpecialFields(std::vector<std::string> _Fields);
+
     /***
      * @brief 获取pk记录的全部数据
      * @param pk
@@ -291,7 +307,7 @@ public:
      * @param _Field
      * @return
      */
-    std::string GetRecordField(int pk,std::string _Field); /// 获取一条记录的一个字段
+    std::string GetRecordField(int pk, std::string _Field); /// 获取一条记录的一个字段
     /***
      * @brief 获取符合条件的第一条记录的_Field字段
      * @param _SrcFields
@@ -308,7 +324,7 @@ public:
      * @param _Fields
      * @return
      */
-    std::map<std::string, std::string> GetRecordFields(int pk,std::vector<std::string> _Fields); /// 获取一条记录的某几个字段
+    std::map<std::string, std::string> GetRecordFields(int pk, std::vector<std::string> _Fields); /// 获取一条记录的某几个字段
     /***
      * @brief 获取符合条件的第一条记录的某几个字段
      * @param pk
@@ -331,26 +347,27 @@ class Data_Base {
 public:
     Data_Base();
 
-    Data_Base(Data_Base &rhs);
+    Data_Base(const Data_Base &rhs);
 
     ~Data_Base();
+    /***
+     * @brief 新增一个名叫TableName的表
+     * @param TableName
+     */
+    void NewTable(std::string TableName);
+    /***
+     * @brief 新增一个名叫TableName的表，有_Field中的字段
+     * @param TableName
+     * @param _Fields
+     */
+    void NewTable(std::string TableName,std::vector<std::string> _Fields);
+    /***
+     * @brief 删除TableName表
+     * @param TableName
+     */
+    void EraseTable(std::string TableName);
 
-    void NewTable();
-
-    void EraseTable();
-
-    void AddRecord();/// 添加一条记录
-    void EraseRecord();/// 删除一条记录
-    void AddField(); /// 添加一个字段
-    void EraseField(); /// 删除一个字段
-    void AddRecordField(); /// 给一条记录添加一条字段
-    void EraseRecordField(); /// 删除一条记录的某个字段
-    void GetAllFields(); /// 获取当前表的全部字段
-    void GetAllRecordsWithSpecialFields(); /// 获取当前表中有某个field的全部字段
-    void GetRecord(); /// 获取一条记录
-    void GetRecord(); /// 获取一条记录的一个字段
-    void GetRecord(); /// 获取一条记录的某几个字段
-private:
+public:
     std::map<std::string, Table> Tables;
 };
 
