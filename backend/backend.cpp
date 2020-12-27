@@ -23,18 +23,18 @@ std::string Serializer(int x) {
     return S;
 }
 
-User::User() : Data_Base() {
+UserLogin::UserLogin() : Data_Base() {
     NewTable("UserInfo");
     Tables["UserInfo"].AddField("UserName");
     Tables["UserInfo"].AddField("UserPassword");
     Tables["UserInfo"].AddField("UserUUID");
 }
 
-User::~User() {
+UserLogin::~UserLogin() {
 
 }
 
-int User::Register(std::string _UserName, std::string _UserPassword) {
+int UserLogin::Register(std::string _UserName, std::string _UserPassword) {
     if (Tables["UserInfo"].FilterForRecord("UserName", _UserName) != -1)
         return 1;//用户名重复
     std::vector<std::string> tmp1;
@@ -47,7 +47,7 @@ int User::Register(std::string _UserName, std::string _UserPassword) {
     return 0;
 }
 
-int User::Login(std::string _UserName, std::string _UserPassword) {
+int UserLogin::Login(std::string _UserName, std::string _UserPassword) {
     int tmp = Tables["UserInfo"].FilterForRecord("UserName", _UserName);
     if (tmp == -1)
         return -1;/// 用户名不存在
@@ -63,7 +63,7 @@ int User::Login(std::string _UserName, std::string _UserPassword) {
     }///密码错误
 }
 
-int User::LogOut(int _UUID) {
+int UserLogin::LogOut(int _UUID) {
     int tmp = Tables["UserInfo"].FilterForRecord("UserUUID", Serializer(_UUID));
     if (tmp == -1)
         return -1;/// 用户不存在
@@ -71,11 +71,23 @@ int User::LogOut(int _UUID) {
     return 0;
 }
 
-bool User::QueryStatus(int _UUID) {
+bool UserLogin::QueryStatus(int _UUID) {
     int tmp = Tables["UserInfo"].FilterForRecord("UserUUID", Serializer(_UUID));
     if (tmp == -1)
         return false;/// 用户不存在
     return true;
 }
 
+Tickets::Tickets() {
 
+}
+Tickets::~Tickets() {
+
+}
+void Tickets::NewAirLine() {
+
+}
+void Tickets::NewAirLine(std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
+    int tmp
+    NewTable();
+}

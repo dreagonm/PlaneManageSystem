@@ -24,11 +24,11 @@ std::vector<T> Wrapper(T x);
  */
 std::string Serializer(int x);
 
-class User : public Data_Base {
+class UserLogin : public Data_Base {
 public:
-    User();
+    UserLogin();
 
-    ~User();
+    ~UserLogin();
 
     /***
      * @brief 用户注册
@@ -66,16 +66,22 @@ public:
     Tickets();
 
     ~Tickets();
-
-    void Check();
-
-    int CheckRemainTickets();
+    /***
+     * @brief新建一条航班线路
+     * @param AirlineID
+     */
+    void NewAirLine(std::string AirlineID);
+    void NewAirLine(std::string AirlineID,std::vector<std::string> Seats,std::vector<std::string>);
+    void GetRemain();
 
     void OrderTickets();
 
     void CancelOrder();
-};
 
+};
+class UserTickets: public Data_Base {
+
+};
 class TimeTable : public Data_Base {
     TimeTable();
 
@@ -85,7 +91,8 @@ class TimeTable : public Data_Base {
 
     void DelAirLine();
 };
-
+/// TODO 一些飞机的预设
+/*
 class Flights : public Data_Base {
     Flights();
 
@@ -95,5 +102,5 @@ class Flights : public Data_Base {
 
     void DelFlight();
 };
-
+*/
 #endif //PLANEMANAGESYSTEM_BACKEND_H
