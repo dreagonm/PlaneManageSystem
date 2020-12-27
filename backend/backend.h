@@ -9,6 +9,7 @@
 
 /// TODO 完善的用户控制
 /// TODO 航线ID与航班ID分离
+/// TODO 用户名与订票名分离
 extern std::set<int> UUIDpool;
 extern std::set<std::string> GlobalOrderID;
 template<typename T>
@@ -169,7 +170,9 @@ class UserTickets: public Data_Base {
 public:
     UserTickets();
     ~UserTickets();
-
+    OrderTicket();
+    CancelTicket();
+    ViewAllTickets();
 };
 /// TODO 一些飞机的预设
 /*
