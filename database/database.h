@@ -81,7 +81,14 @@ public:
      * @details 返回-1表示当前表为空
      */
     int GetLastestRecord(void);
-
+    /***
+     * @brief 找到第一个符合条件的record
+     * @param _Fields
+     * @param _Vals
+     * @return 第一个符合条件的record的主键
+     * @details 如果不存在，返回-1
+     */
+    int FilterForRecord(std::string _Field,std::string _Val);
     /***
      * @brief 找到第一个符合条件的record
      * @param _Fields
@@ -344,7 +351,7 @@ private:
 };
 
 class Data_Base {
-public:
+protected:
     Data_Base();
 
     Data_Base(const Data_Base &rhs);
@@ -367,7 +374,7 @@ public:
      */
     void EraseTable(std::string TableName);
 
-public:
+protected:
     std::map<std::string, Table> Tables;
 };
 

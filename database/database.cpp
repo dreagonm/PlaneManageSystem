@@ -85,7 +85,21 @@ Table::~Table() {
 int Table::GetLastestRecord() {
     return PrimaryKey - 1;
 }
-
+int Table::FilterForRecord(std::string _Field, std::string _Val) {
+    for (int i = 0; i < PrimaryKey; i++) {
+        if (!Records.count(i))
+            continue;
+        Records[i].MaintainRecord(Fields);
+        bool f = true;
+        if (!Records[i].CheckRecord(_Field, _Val)) {
+            f = false;
+            break;
+        }
+        if (f)
+            return i;
+    }
+    return -1;
+}
 int Table::FilterForRecord(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
     for (int i = 0; i < PrimaryKey; i++) {
         if (!Records.count(i))
