@@ -8,7 +8,7 @@
 #include "../database/database.h"
 
 /// TODO 完善的用户控制
-
+/// TODO 航线ID与航班ID分离
 extern std::set<int> UUIDpool;
 extern std::set<std::string> GlobalOrderID;
 template<typename T>
@@ -141,17 +141,35 @@ public:
     std::string CancelOrder(std::string AirlineID,std::string OrderID);
 
 };
-class UserTickets: public Data_Base {
 
+class AirlineTable : public Data_Base {
+public:
+    AirlineTable();
+    ~AirlineTable();
+    /***
+     * @brief 添加航线
+     * @param AirlineID
+     * @param SrcPosition
+     * @param DstPosition
+     * @param SrcTime
+     * @param DstTime
+     * @return "Airline Succefully Add" 成功添加
+     * @throw "AirlineID Already Exist" 航班已经存在
+     */
+    std::string AddAirline(std::string AirlineID,std::string SrcPosition,std::string DstPosition,std::string SrcTime,std::string DstTime);
+    /***
+     * @brief 删除航线
+     * @param AirlineID
+     * @return "Airline Succefully Delete" 删除成功
+     * @throw "AirlineID doesn't Exist" 航班不存在
+     */
+    std::string EraseAirline(std::string AirlineID);
 };
-class TimeTable : public Data_Base {
-    TimeTable();
+class UserTickets: public Data_Base {
+public:
+    UserTickets();
+    ~UserTickets();
 
-    ~TimeTable();
-
-    void AddAirLine();
-
-    void DelAirLine();
 };
 /// TODO 一些飞机的预设
 /*

@@ -204,3 +204,36 @@ std::string Tickets::CancelOrder(std::string AirlineID,std::string OrderID) {
     GlobalOrderID.erase(OrderID);
     return "Successfully Canceled Order";
 }
+AirlineTable::AirlineTable():Data_Base() {
+    NewTable("Airlines");
+    Tables["Airlines"].AddField("AirlineID");
+    Tables["Airlines"].AddField("SrcPosition");
+    Tables["Airlines"].AddField("DstPosition");
+    Tables["Airlines"].AddField("SrcTime");
+    Tables["Airlines"].AddField("DstTime");
+}
+AirlineTable::~AirlineTable() {
+
+}
+std::string AirlineTable::AddAirline(std::string AirlineID, std::string SrcPosition, std::string DstPosition,
+                                     std::string SrcTime, std::string DstTime) {
+    int tmp=Tables["Airlines"].FilterForRecord("AirlineID",AirlineID);
+    if(tmp!=-1)
+        return "AirlineID Already Exist";
+    std::vector<std::string> tmp1,tmp2;
+    tmp1.clear();tmp2.clear();
+    tmp1.push_back("AirlineID"),tmp2.push_back(AirlineID);
+    tmp1.push_back("SrcPosition"),tmp2.push_back(SrcPosition);
+    tmp1.push_back("DstPosition"),tmp2.push_back(DstPosition);
+    tmp1.push_back("SrcTime"),tmp2.push_back(SrcTime);
+    tmp1.push_back("DstTime"),tmp2.push_back(DstTime);
+    Tables["Airlines"].AddRecord(tmp1,tmp2);
+    return "Airline Succefully Add";
+}
+std::string AirlineTable::EraseAirline(std::string AirlineID) {
+    int tmp=Tables["Airlines"].FilterForRecord("AirlineID",AirlineID);
+    if(tmp==-1)
+        return "AirlineID doesn't Exist";
+    Tables["Airlines"].EraseRecord(tmp);
+    return "Airline Succefully Delete";
+}
