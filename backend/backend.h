@@ -12,6 +12,7 @@
 /// TODO 用户名与订票名分离
 extern std::set<int> UUIDpool;
 extern std::set<std::string> GlobalOrderID;
+
 template<typename T>
 /***
  * @brief 将单个数据转化为vector
@@ -27,24 +28,28 @@ std::vector<T> Wrapper(T x);
  * @return
  */
 std::string Serializer(int x);
+
 /***
  * @brief 将string转化为int
  * @param x
  * @return
  */
 int DeSerializer(std::string x);
+
 /***
  * @brief 将bool转为string
  * @param t
  * @return
  */
 std::string Bool_Serializer(bool t);
+
 /***
  * @brief 将string转换为bool
  * @param x ["True"|"False"]
  * @return
  */
 bool Bool_DeSerializer(std::string x);
+
 class UserLogin : public Data_Base {
 public:
     UserLogin();
@@ -84,40 +89,48 @@ public:
 /// protected:
 /// std::set<int> UUID_;
 };
-class AdminLogin: public UserLogin{
+
+class AdminLogin : public UserLogin {
 public:
     AdminLogin();
+
     ~AdminLogin();
 
 };
+
 class Tickets : public Data_Base {
 public:
     Tickets();
 
     ~Tickets();
+
     /***
      * @brief 新建一条航班线路
      * @param AirlineID
      */
     void NewAirLine(std::string AirlineID);
+
     /***
      * @brief 新建一条航班线路并且直接添加坐席数据
      * @param AirlineID
      * @param Seats
      * @param SeatsLevel
      */
-    void NewAirLine(std::string AirlineID,std::vector<std::string> Seats,std::vector<std::string> SeatLevel);
+    void NewAirLine(std::string AirlineID, std::vector<std::string> Seats, std::vector<std::string> SeatLevel);
+
     /***
      * @brief 获取当前未被预定的座位
      * @return
      */
-    std::map<std::string,std::vector<std::string> > GetRemain(std::string AirlineID);
+    std::map<std::string, std::vector<std::string> > GetRemain(std::string AirlineID);
+
     /***
      * @brief 生成订单号
      * @details 订单号：10位随机字符串
      * @return
      */
     std::string GenerateOrderID(void);
+
     /***
      * @brief 订票
      * @param AirlineID
@@ -130,7 +143,9 @@ public:
      * @throw "SeatID Does not Exist" 座位号错误
      * @throw "Seat Has Already Been Ordered" 座位已经被预定
      */
-    std::string OrderTickets(std::string AirlineID,std::string SeatID,std::string Passenger,bool HasFood,bool HasPackage);
+    std::string
+    OrderTickets(std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood, bool HasPackage);
+
     /***
      * @brief 退票
      * @param AirlineID
@@ -139,14 +154,16 @@ public:
      * @throw "Airline Does not Exist" 航班号错误
      * @throw "OrderID Does not Exist" 订单号错误
     */
-    std::string CancelOrder(std::string AirlineID,std::string OrderID);
+    std::string CancelOrder(std::string AirlineID, std::string OrderID);
 
 };
 
 class AirlineTable : public Data_Base {
 public:
     AirlineTable();
+
     ~AirlineTable();
+
     /***
      * @brief 添加航线
      * @param AirlineID
@@ -157,7 +174,9 @@ public:
      * @return "Airline Succefully Add" 成功添加
      * @throw "AirlineID Already Exist" 航班已经存在
      */
-    std::string AddAirline(std::string AirlineID,std::string SrcPosition,std::string DstPosition,std::string SrcTime,std::string DstTime);
+    std::string AddAirline(std::string AirlineID, std::string SrcPosition, std::string DstPosition, std::string SrcTime,
+                           std::string DstTime);
+
     /***
      * @brief 删除航线
      * @param AirlineID
@@ -166,15 +185,21 @@ public:
      */
     std::string EraseAirline(std::string AirlineID);
 };
-class UserTickets: public Data_Base {
+
+class UserTickets : public Data_Base {
 public:
     UserTickets();
+
     ~UserTickets();
-    std::string OrderTicket(std::string User,std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood,
-                            bool HasPackage,std::string OrderID,std::string SrcPosition,std::string DstPosition,
-                            std::string SrcTime,std::string DstTime);
+
+    std::string
+    OrderTicket(std::string User, std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood,
+                bool HasPackage, std::string OrderID, std::string SrcPosition, std::string DstPosition,
+                std::string SrcTime, std::string DstTime);
+
     std::string CancelTicket(std::string OrderID);
-    std::vector<std::map<std::string,std::string>> ViewAllTickets(std::string User);
+
+    std::vector<std::map<std::string, std::string>> ViewAllTickets(std::string User);
 };
 /// TODO 一些飞机的预设
 /*

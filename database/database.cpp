@@ -341,8 +341,8 @@ std::set<int> Table::GetAllRecordsWithoutSpecialField(std::string _Field) {
     std::set<int> tmp;
     tmp.clear();
     Maintain(_Field);
-    for(int i=0;i<PrimaryKey;i++)
-        if(Records.count(i)&&(!SearchRecord[_Field].count(i)))
+    for (int i = 0; i < PrimaryKey; i++)
+        if (Records.count(i) && (!SearchRecord[_Field].count(i)))
             tmp.insert(i);
     return SearchRecord[_Field];
 }

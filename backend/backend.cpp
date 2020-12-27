@@ -6,6 +6,7 @@
 
 std::set<int> UUIDpool;
 std::set<std::string> GlobalOrderID;
+
 template<typename T>
 std::vector<T> Wrapper(T x) {
     std::vector<T> tmp;
@@ -24,23 +25,27 @@ std::string Serializer(int x) {
     std::reverse(S.begin(), S.end());
     return S;
 }
-int DeSeiralizer(std::string x){
-    int tmp=0;
-    for(int i=0;i<x.length();i++){
-        tmp*=10;
-        tmp+=x[i]-'0';
+
+int DeSeiralizer(std::string x) {
+    int tmp = 0;
+    for (int i = 0; i < x.length(); i++) {
+        tmp *= 10;
+        tmp += x[i] - '0';
     }
     return tmp;
 }
-std::string Bool_Serializer(bool t){
-    if(t)
+
+std::string Bool_Serializer(bool t) {
+    if (t)
         return "True";
     else
         return "False";
 }
-bool Bool_DeSerializer(std::string x){
-    return x=="True";
+
+bool Bool_DeSerializer(std::string x) {
+    return x == "True";
 }
+
 UserLogin::UserLogin() : Data_Base() {
     NewTable("UserInfo");
     Tables["UserInfo"].AddField("UserName");
@@ -74,7 +79,7 @@ int UserLogin::Login(std::string _UserName, std::string _UserPassword) {
         while (tmpUUID == -1 || tmpUUID == 0 || UUIDpool.count(tmpUUID))
             tmpUUID = ((rand() % 39831) << 14) * (rand() % 19260817);
         Tables["UserInfo"].AddRecordField(tmp, "UserUUID", Serializer(tmpUUID));
-    ///    UUID_.insert(tmpUUID);
+        ///    UUID_.insert(tmpUUID);
         UUIDpool.insert(tmpUUID);
         return tmpUUID;
     }///密码正确
@@ -87,7 +92,7 @@ int UserLogin::LogOut(int _UUID) {
     int tmp = Tables["UserInfo"].FilterForRecord("UserUUID", Serializer(_UUID));
     if (tmp == -1)
         return -1;/// 用户不存在
-    int tmpUUID  = DeSeiralizer(Tables["UserInfo"].GetRecordField(tmp,"UserUUID"));
+    int tmpUUID = DeSeiralizer(Tables["UserInfo"].GetRecordField(tmp, "UserUUID"));
     Tables["UserInfo"].EraseRecordField(tmp, "UserUUID");
     /// UUID_.erase(tmpUUID);
     UUIDpool.erase(tmpUUID);
@@ -100,18 +105,23 @@ bool UserLogin::QueryStatus(int _UUID) {
         return false;/// 用户不存在
     return true;
 }
-AdminLogin::AdminLogin() :UserLogin(){
+
+AdminLogin::AdminLogin() : UserLogin() {
 
 }
+
 AdminLogin::~AdminLogin() {
 
 }
+
 Tickets::Tickets() {
 
 }
+
 Tickets::~Tickets() {
 
 }
+
 void Tickets::NewAirLine(std::string AirlineID) {
     NewTable(AirlineID);
     std::vector<std::string> tmp1;
@@ -123,7 +133,8 @@ void Tickets::NewAirLine(std::string AirlineID) {
     tmp1.push_back("OrderId");/// 订单号
     Tables[AirlineID].AddFields(tmp1);
 }
-void Tickets::NewAirLine(std::string AirLineID,std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
+
+void Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
     NewTable(AirLineID);
     Tables[AirLineID].AddField("SeatId");
     Tables[AirLineID].AddField("SeatLevel");
@@ -131,23 +142,24 @@ void Tickets::NewAirLine(std::string AirLineID,std::vector<std::string> Seats, s
     Tables[AirLineID].AddField("HasFood");
     Tables[AirLineID].AddField("HasPackageTransform");
     Tables[AirLineID].AddField("OrderId");
-    for(int i=0;i<Seats.size();i++){
-        std::vector<std::string> tmp1,tmp2;
+    for (int i = 0; i < Seats.size(); i++) {
+        std::vector<std::string> tmp1, tmp2;
         tmp1.push_back("SeatId");
         tmp2.push_back(Seats[i]);
         tmp1.push_back("SeatLevel");
         tmp2.push_back(SeatsLevel[i]);
-        Tables[AirLineID].AddRecord(tmp1,tmp2);
+        Tables[AirLineID].AddRecord(tmp1, tmp2);
     }
 }
-std::map<std::string,std::vector<std::string> > Tickets::GetRemain(std::string AirlineID){
-    std::map<std::string,std::vector<std::string> > rev;
+
+std::map<std::string, std::vector<std::string> > Tickets::GetRemain(std::string AirlineID) {
+    std::map<std::string, std::vector<std::string> > rev;
     rev.clear();
     std::set<int> tmp = Tables[AirlineID].GetAllRecordsWithoutSpecialField("Passenger");
-    std::map<std::string,std::string> data_tmp;
+    std::map<std::string, std::string> data_tmp;
     data_tmp.clear();
-    for(auto it=tmp.begin();it!=tmp.end();it++){
-        data_tmp=Tables[AirlineID].GetRecord((*it));
+    for (auto it = tmp.begin(); it != tmp.end(); it++) {
+        data_tmp = Tables[AirlineID].GetRecord((*it));
         rev[data_tmp["SeatLevel"]].push_back(data_tmp["SeatId"]);
     }
     return rev;
@@ -156,55 +168,57 @@ std::map<std::string,std::vector<std::string> > Tickets::GetRemain(std::string A
 std::string Tickets::GenerateOrderID(void) {
     std::string tmp;
     tmp.clear();
-    for(int i=0;i<10;i++){
-        if(i%2)
-            tmp.push_back(rand()%26+'a');
+    for (int i = 0; i < 10; i++) {
+        if (i % 2)
+            tmp.push_back(rand() % 26 + 'a');
         else
-            tmp.push_back(rand()%26+'A');
+            tmp.push_back(rand() % 26 + 'A');
     }
-    while(GlobalOrderID.count(tmp)){
+    while (GlobalOrderID.count(tmp)) {
         tmp.clear();
-        for(int i=0;i<10;i++){
-            if(i%2)
-                tmp.push_back(rand()%26+'a');
+        for (int i = 0; i < 10; i++) {
+            if (i % 2)
+                tmp.push_back(rand() % 26 + 'a');
             else
-                tmp.push_back(rand()%26+'A');
+                tmp.push_back(rand() % 26 + 'A');
         }
     }
     return tmp;
 }
+
 std::string Tickets::OrderTickets(std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood,
                                   bool HasPackage) {
-    if(Tables.count(AirlineID)==0)
+    if (Tables.count(AirlineID) == 0)
         return "Airline Does not Exist";
-    int tmpID=Tables[AirlineID].FilterForRecord("SeatId",SeatID);
-    if(tmpID==-1)
+    int tmpID = Tables[AirlineID].FilterForRecord("SeatId", SeatID);
+    if (tmpID == -1)
         return "SeatID Does not Exist";
-    if(Tables[AirlineID].GetRecordField(tmpID,"Passenger")!="")
+    if (Tables[AirlineID].GetRecordField(tmpID, "Passenger") != "")
         return "Seat Has Already Been Ordered";
-    std::string OrderID=GenerateOrderID();
-    Tables[AirlineID].AddRecordField(tmpID,"Passenger",Passenger);
-    Tables[AirlineID].AddRecordField(tmpID,"HasFood",Bool_Serializer(HasFood));
-    Tables[AirlineID].AddRecordField(tmpID,"HasPackageTransform",Bool_Serializer(HasPackage));
-    Tables[AirlineID].AddRecordField(tmpID,"OrderId",OrderID);
+    std::string OrderID = GenerateOrderID();
+    Tables[AirlineID].AddRecordField(tmpID, "Passenger", Passenger);
+    Tables[AirlineID].AddRecordField(tmpID, "HasFood", Bool_Serializer(HasFood));
+    Tables[AirlineID].AddRecordField(tmpID, "HasPackageTransform", Bool_Serializer(HasPackage));
+    Tables[AirlineID].AddRecordField(tmpID, "OrderId", OrderID);
     GlobalOrderID.insert(OrderID);
     return OrderID;
 }
 
-std::string Tickets::CancelOrder(std::string AirlineID,std::string OrderID) {
-    if(Tables.count(AirlineID)==0)
+std::string Tickets::CancelOrder(std::string AirlineID, std::string OrderID) {
+    if (Tables.count(AirlineID) == 0)
         return "Airline Does not Exist";
-    int tmpID=Tables[AirlineID].FilterForRecord("OrderId",OrderID);
-    if(tmpID==-1)
+    int tmpID = Tables[AirlineID].FilterForRecord("OrderId", OrderID);
+    if (tmpID == -1)
         return "OrderID Does not Exist";
-    Tables[AirlineID].EraseRecordField(tmpID,"Passenger");
-    Tables[AirlineID].EraseRecordField(tmpID,"HasFood");
-    Tables[AirlineID].EraseRecordField(tmpID,"HasPackageTransform");
-    Tables[AirlineID].EraseRecordField(tmpID,"OrderId");
+    Tables[AirlineID].EraseRecordField(tmpID, "Passenger");
+    Tables[AirlineID].EraseRecordField(tmpID, "HasFood");
+    Tables[AirlineID].EraseRecordField(tmpID, "HasPackageTransform");
+    Tables[AirlineID].EraseRecordField(tmpID, "OrderId");
     GlobalOrderID.erase(OrderID);
     return "Successfully Canceled Order";
 }
-AirlineTable::AirlineTable():Data_Base() {
+
+AirlineTable::AirlineTable() : Data_Base() {
     NewTable("Airlines");
     Tables["Airlines"].AddField("AirlineID");
     Tables["Airlines"].AddField("SrcPosition");
@@ -212,27 +226,31 @@ AirlineTable::AirlineTable():Data_Base() {
     Tables["Airlines"].AddField("SrcTime");
     Tables["Airlines"].AddField("DstTime");
 }
+
 AirlineTable::~AirlineTable() {
 
 }
+
 std::string AirlineTable::AddAirline(std::string AirlineID, std::string SrcPosition, std::string DstPosition,
                                      std::string SrcTime, std::string DstTime) {
-    int tmp=Tables["Airlines"].FilterForRecord("AirlineID",AirlineID);
-    if(tmp!=-1)
+    int tmp = Tables["Airlines"].FilterForRecord("AirlineID", AirlineID);
+    if (tmp != -1)
         return "AirlineID Already Exist";
-    std::vector<std::string> tmp1,tmp2;
-    tmp1.clear();tmp2.clear();
-    tmp1.push_back("AirlineID"),tmp2.push_back(AirlineID);
-    tmp1.push_back("SrcPosition"),tmp2.push_back(SrcPosition);
-    tmp1.push_back("DstPosition"),tmp2.push_back(DstPosition);
-    tmp1.push_back("SrcTime"),tmp2.push_back(SrcTime);
-    tmp1.push_back("DstTime"),tmp2.push_back(DstTime);
-    Tables["Airlines"].AddRecord(tmp1,tmp2);
+    std::vector<std::string> tmp1, tmp2;
+    tmp1.clear();
+    tmp2.clear();
+    tmp1.push_back("AirlineID"), tmp2.push_back(AirlineID);
+    tmp1.push_back("SrcPosition"), tmp2.push_back(SrcPosition);
+    tmp1.push_back("DstPosition"), tmp2.push_back(DstPosition);
+    tmp1.push_back("SrcTime"), tmp2.push_back(SrcTime);
+    tmp1.push_back("DstTime"), tmp2.push_back(DstTime);
+    Tables["Airlines"].AddRecord(tmp1, tmp2);
     return "Airline Succefully Add";
 }
+
 std::string AirlineTable::EraseAirline(std::string AirlineID) {
-    int tmp=Tables["Airlines"].FilterForRecord("AirlineID",AirlineID);
-    if(tmp==-1)
+    int tmp = Tables["Airlines"].FilterForRecord("AirlineID", AirlineID);
+    if (tmp == -1)
         return "AirlineID doesn't Exist";
     Tables["Airlines"].EraseRecord(tmp);
     return "Airline Succefully Delete";
