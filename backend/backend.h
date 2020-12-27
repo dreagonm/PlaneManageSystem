@@ -8,6 +8,9 @@
 #include "../database/database.h"
 
 /// TODO 完善的用户控制
+
+extern std::set<int> UUIDpool;
+
 template<typename T>
 /***
  * @brief 将单个数据转化为vector
@@ -23,7 +26,12 @@ std::vector<T> Wrapper(T x);
  * @return
  */
 std::string Serializer(int x);
-
+/***
+ * @brief 将string转化为int
+ * @param x
+ * @return
+ */
+int DeSerializer(std::string x);
 class UserLogin : public Data_Base {
 public:
     UserLogin();
@@ -60,7 +68,11 @@ public:
      */
     bool QueryStatus(int _UUID);
 };
+class AdminLogin: public UserLogin{
+    AdminLogin();
+    ~AdminLogin();
 
+};
 class Tickets : public Data_Base {
 public:
     Tickets();
