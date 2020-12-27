@@ -4,7 +4,9 @@
 
 #ifndef PLANEMANAGESYSTEM_BACKEND_H
 #define PLANEMANAGESYSTEM_BACKEND_H
+
 #include "../database/database.h"
+
 /// TODO 完善的用户控制
 template<typename T>
 /***
@@ -14,36 +16,43 @@ template<typename T>
  * @return
  */
 std::vector<T> Wrapper(T x);
+
 /***
  * @brief 将单个整数转化为string
  * @param x
  * @return
  */
 std::string Serializer(int x);
-class User: public Data_Base{
+
+class User : public Data_Base {
 public:
     User();
+
     ~User();
+
     /***
      * @brief 用户注册
      * @param _UserName
      * @param _UserPassword
      * @return 0 注册成功 1 用户名重复，注册失败
      */
-    int Register(std::string _UserName,std::string _UserPassword);
+    int Register(std::string _UserName, std::string _UserPassword);
+
     /***
      * @brief 用户登录
      * @param _UserName
      * @param _UserPassword
      * @return 0 密码错误 -1 用户不存在 else 登录成功的权限uuid
      */
-    int Login(std::string _UserName,std::string _UserPassword);
+    int Login(std::string _UserName, std::string _UserPassword);
+
     /***
      * @brief 用户登出
      * @param _UUID
      * @return -1 用户不存在 0 成功登出
      */
     int LogOut(int _UUID);
+
     /***
      * @brief 检测登录状态
      * @param _UUID
@@ -51,25 +60,40 @@ public:
      */
     bool QueryStatus(int _UUID);
 };
-class Tickets: public Data_Base{
+
+class Tickets : public Data_Base {
 public:
     Tickets();
+
     ~Tickets();
+
     void Check();
+
     int CheckRemainTickets();
+
     void OrderTickets();
+
     void CancelOrder();
 };
-class TimeTable: public Data_Base{
+
+class TimeTable : public Data_Base {
     TimeTable();
+
     ~TimeTable();
+
     void AddAirLine();
+
     void DelAirLine();
 };
-class Flights: public Data_Base{
+
+class Flights : public Data_Base {
     Flights();
+
     ~Flights();
+
     void AddFlight();
+
     void DelFlight();
 };
+
 #endif //PLANEMANAGESYSTEM_BACKEND_H

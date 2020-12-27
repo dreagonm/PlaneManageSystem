@@ -85,6 +85,7 @@ Table::~Table() {
 int Table::GetLastestRecord() {
     return PrimaryKey - 1;
 }
+
 int Table::FilterForRecord(std::string _Field, std::string _Val) {
     for (int i = 0; i < PrimaryKey; i++) {
         if (!Records.count(i))
@@ -100,6 +101,7 @@ int Table::FilterForRecord(std::string _Field, std::string _Val) {
     }
     return -1;
 }
+
 int Table::FilterForRecord(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
     for (int i = 0; i < PrimaryKey; i++) {
         if (!Records.count(i))
@@ -295,15 +297,17 @@ void Table::EraseRecordsFields(std::vector<std::string> _SrcFields, std::vector<
 std::set<std::string> Table::GetAllFields() {
     return Fields;
 }
+
 void Table::Maintain(std::string _Field) {
     std::set<int> tmp;
     tmp.clear();
-    for(auto it=SearchRecord[_Field].begin();it!=SearchRecord[_Field].end();it++)
-        if(!Records.count(*it))
+    for (auto it = SearchRecord[_Field].begin(); it != SearchRecord[_Field].end(); it++)
+        if (!Records.count(*it))
             tmp.insert((*it));
-    for(auto it=tmp.begin();it!=tmp.end();it++)
+    for (auto it = tmp.begin(); it != tmp.end(); it++)
         SearchRecord[_Field].erase((*it));
 }
+
 std::set<int> Table::GetAllRecordsWithSpecialField(std::string _Field) {
     if (!Fields.count(_Field)) {
         std::set<int> tmp;
@@ -399,19 +403,23 @@ std::map<std::string, std::string> Table::GetRecordFields(std::vector<std::strin
 Data_Base::Data_Base() {
 
 }
+
 Data_Base::Data_Base(const Data_Base &rhs) {
-    Tables=rhs.Tables;
+    Tables = rhs.Tables;
 }
+
 Data_Base::~Data_Base() {
 
 }
 
 void Data_Base::NewTable(std::string TableName) {
-    Tables[TableName]=Table();
+    Tables[TableName] = Table();
 }
+
 void Data_Base::NewTable(std::string TableName, std::vector<std::string> _Fields) {
-    Tables[TableName]=Table(_Fields);
+    Tables[TableName] = Table(_Fields);
 }
+
 void Data_Base::EraseTable(std::string TableName) {
     Tables.erase(TableName);
 }

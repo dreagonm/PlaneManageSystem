@@ -81,6 +81,7 @@ public:
      * @details 返回-1表示当前表为空
      */
     int GetLastestRecord(void);
+
     /***
      * @brief 找到第一个符合条件的record
      * @param _Fields
@@ -88,7 +89,8 @@ public:
      * @return 第一个符合条件的record的主键
      * @details 如果不存在，返回-1
      */
-    int FilterForRecord(std::string _Field,std::string _Val);
+    int FilterForRecord(std::string _Field, std::string _Val);
+
     /***
      * @brief 找到第一个符合条件的record
      * @param _Fields
@@ -281,6 +283,7 @@ public:
      * @param _Field
      */
     void Maintain(std::string _Field);
+
     /***
      * @brief 获取当前表中有某个field的全部记录
      * @param _Field
@@ -357,17 +360,20 @@ protected:
     Data_Base(const Data_Base &rhs);
 
     ~Data_Base();
+
     /***
      * @brief 新增一个名叫TableName的表
      * @param TableName
      */
     void NewTable(std::string TableName);
+
     /***
      * @brief 新增一个名叫TableName的表，有_Field中的字段
      * @param TableName
      * @param _Fields
      */
-    void NewTable(std::string TableName,std::vector<std::string> _Fields);
+    void NewTable(std::string TableName, std::vector<std::string> _Fields);
+
     /***
      * @brief 删除TableName表
      * @param TableName
