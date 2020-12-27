@@ -170,9 +170,11 @@ class UserTickets: public Data_Base {
 public:
     UserTickets();
     ~UserTickets();
-    OrderTicket();
-    CancelTicket();
-    ViewAllTickets();
+    std::string OrderTicket(std::string User,std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood,
+                            bool HasPackage,std::string OrderID,std::string SrcPosition,std::string DstPosition,
+                            std::string SrcTime,std::string DstTime);
+    std::string CancelTicket(std::string OrderID);
+    std::vector<std::map<std::string,std::string>> ViewAllTickets(std::string User);
 };
 /// TODO 一些飞机的预设
 /*
