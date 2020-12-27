@@ -298,6 +298,13 @@ public:
     std::set<int> GetAllRecordsWithSpecialFields(std::vector<std::string> _Fields);
 
     /***
+     * @brief 获取当前表中没有某个field的全部记录
+     * @param _Field
+     * @return
+     */
+    std::set<int> GetAllRecordsWithoutSpecialField(std::string _Field); /// 获取当前表中没有某个field的全部记录
+
+    /***
      * @brief 获取pk记录的全部数据
      * @param pk
      * @return

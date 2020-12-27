@@ -337,6 +337,16 @@ std::set<int> Table::GetAllRecordsWithSpecialFields(std::vector<std::string> _Fi
     }
 }
 
+std::set<int> Table::GetAllRecordsWithoutSpecialField(std::string _Field) {
+    std::set<int> tmp;
+    tmp.clear();
+    Maintain(_Field);
+    for(int i=0;i<PrimaryKey;i++)
+        if(Records.count(i)&&(!SearchRecord[_Field].count(i)))
+            tmp.insert(i);
+    return SearchRecord[_Field];
+}
+
 std::map<std::string, std::string> Table::GetRecord(int pk) {
     if (!Records.count(pk)) {
         std::map<std::string, std::string> tmp;
