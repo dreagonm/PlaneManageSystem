@@ -162,5 +162,45 @@ std::string Tickets::GenerateOrderID(void) {
         else
             tmp.push_back(rand()%26+'A');
     }
+    while(GlobalOrderID.count(tmp)){
+        tmp.clear();
+        for(int i=0;i<10;i++){
+            if(i%2)
+                tmp.push_back(rand()%26+'a');
+            else
+                tmp.push_back(rand()%26+'A');
+        }
+    }
     return tmp;
+}
+std::string Tickets::OrderTickets(std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood,
+                                  bool HasPackage) {
+    if(Tables.count(AirlineID)==0)
+        return "Airline Does not Exist";
+    int tmpID=Tables[AirlineID].FilterForRecord("SeatId",SeatID);
+    if(tmpID==-1)
+        return "SeatID Does not Exist";
+    if(Tables[AirlineID].GetRecordField(tmpID,"Passenger")!="")
+        return "Seat Has Already Been Ordered";
+    std::string OrderID=GenerateOrderID();
+    Tables[AirlineID].AddRecordField(tmpID,"Passenger",Passenger);
+    Tables[AirlineID].AddRecordField(tmpID,"HasFood",Bool_Serializer(HasFood));
+    Tables[AirlineID].AddRecordField(tmpID,"HasPackageTransform",Bool_Serializer(HasPackage));
+    Tables[AirlineID].AddRecordField(tmpID,"OrderId",OrderID);
+    GlobalOrderID.insert(OrderID);
+    return OrderID;
+}
+
+std::string Tickets::CancelOrder(std::string AirlineID,std::string OrderID) {
+    if(Tables.count(AirlineID)==0)
+        return "Airline Does not Exist";
+    int tmpID=Tables[AirlineID].FilterForRecord("OrderId",OrderID);
+    if(tmpID==-1)
+        return "OrderID Does not Exist";
+    Tables[AirlineID].EraseRecordField(tmpID,"Passenger");
+    Tables[AirlineID].EraseRecordField(tmpID,"HasFood");
+    Tables[AirlineID].EraseRecordField(tmpID,"HasPackageTransform");
+    Tables[AirlineID].EraseRecordField(tmpID,"OrderId");
+    GlobalOrderID.erase(OrderID);
+    return "Successfully Canceled Order";
 }

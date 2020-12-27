@@ -125,10 +125,20 @@ public:
      * @param HasFood
      * @param HasPackage
      * @return 订单号
+     * @throw "Airline Does not Exist" 航班号错误
+     * @throw "SeatID Does not Exist" 座位号错误
+     * @throw "Seat Has Already Been Ordered" 座位已经被预定
      */
     std::string OrderTickets(std::string AirlineID,std::string SeatID,std::string Passenger,bool HasFood,bool HasPackage);
-
-    void CancelOrder();
+    /***
+     * @brief 退票
+     * @param AirlineID
+     * @param OrderID
+     * @return "Successfully Canceled Order" 成功取消
+     * @throw "Airline Does not Exist" 航班号错误
+     * @throw "OrderID Does not Exist" 订单号错误
+    */
+    std::string CancelOrder(std::string AirlineID,std::string OrderID);
 
 };
 class UserTickets: public Data_Base {
