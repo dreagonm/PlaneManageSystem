@@ -271,6 +271,15 @@ std::vector<std::map<std::string,std::string>> AirlineTable::GetAirline(void){
     }
     return rev;
 }
+std::map<std::string,std::string> AirlineTable::GetAirline(std::string AirlineID){
+    std::map<std::string,std::string> rev;
+    rev.clear();
+    int tmp=Tables["Airlines"].FilterForRecord("AirlineID",AirlineID);
+    if(tmp==-1)
+        return rev;
+    rev=Tables["Airlines"].GetRecord(tmp);
+    return rev;
+}
 
 UserTickets::UserTickets() {
 

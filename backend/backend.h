@@ -193,6 +193,12 @@ public:
      * @brief 获取航线信息
      */
      std::vector<std::map<std::string,std::string>> GetAirline(void);
+     /***
+      * @brief 获取航班号对应的航班信息
+      * @param AirlineID
+      * @return
+      */
+     std::map<std::string,std::string> GetAirline(std::string AirlineID);
 };
 
 class UserTickets : public Data_Base {
