@@ -15,30 +15,30 @@ public:
     Worker();
     ~Worker();
     void InitWork();
-    /***
+    /**
      * @brief 错误重试
      * @return
      */
     bool ErrorAndRetry(std::string Message);
-    /***
+    /**
      * @brief 注册
      */
     void RegisterWork();
-    /***
+    /**
      * @brief 用户登录
      */
     void UserLoginWork();
-    /***
+    /**
      * @brief 管理员登录
      */
     void AdminLoginWork();
-    /***
+    /**
      * @brief 处理登录分支
      * @return
      */
     int LoginWork();
     /* -------------------------------- */
-    /***
+    /**
      * @brief 显示所有航班信息
      */
     void ViewAirlineWork();
@@ -48,7 +48,7 @@ public:
     void CancelWork();
     void ViewWork();
     void UserLogoutWork();
-    /***
+    /**
      * @brief 处理用户操作
      */
     void UserWork();

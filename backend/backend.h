@@ -14,7 +14,7 @@ extern std::map<int,std::string> UUIDpool;
 extern std::set<std::string> GlobalOrderID;
 
 template<typename T>
-/***
+/**
  * @brief 将单个数据转化为vector
  * @tparam T
  * @param x
@@ -22,28 +22,28 @@ template<typename T>
  */
 std::vector<T> Wrapper(T x);
 
-/***
+/**
  * @brief 将单个整数转化为string
  * @param x
  * @return
  */
 std::string Serializer(int x);
 
-/***
+/**
  * @brief 将string转化为int
  * @param x
  * @return
  */
 int DeSerializer(std::string x);
 
-/***
+/**
  * @brief 将bool转为string
  * @param t
  * @return
  */
 std::string Bool_Serializer(bool t);
 
-/***
+/**
  * @brief 将string转换为bool
  * @param x ["True"|"False"]
  * @return
@@ -55,13 +55,13 @@ public:
     UserLogin();
 
     ~UserLogin();
-    /***
+    /**
      * @brief 通过UUID获取用户名
      * @param UUID_
      * @return
      */
     std::string GetUserName(int UUID_);
-    /***
+    /**
      * @brief 用户注册
      * @param _UserName
      * @param _UserPassword
@@ -69,7 +69,7 @@ public:
      */
     int Register(std::string _UserName, std::string _UserPassword);
 
-    /***
+    /**
      * @brief 用户登录
      * @param _UserName
      * @param _UserPassword
@@ -77,14 +77,14 @@ public:
      */
     int Login(std::string _UserName, std::string _UserPassword);
 
-    /***
+    /**
      * @brief 用户登出
      * @param _UUID
      * @return -1 用户不存在 0 成功登出
      */
     int LogOut(int _UUID);
 
-    /***
+    /**
      * @brief 检测登录状态
      * @param _UUID
      * @return 0 该UUID代表的用户不在线 1 在线
@@ -109,13 +109,13 @@ public:
 
     ~Tickets();
 
-    /***
+    /**
      * @brief 新建一条航班线路
      * @param AirlineID
      */
     void NewAirLine(std::string AirlineID);
 
-    /***
+    /**
      * @brief 新建一条航班线路并且直接添加坐席数据
      * @param AirlineID
      * @param Seats
@@ -123,26 +123,26 @@ public:
      */
     void NewAirLine(std::string AirlineID, std::vector<std::string> Seats, std::vector<std::string> SeatLevel);
 
-    /***
+    /**
      * @brief 获取当前未被预定的座位
      * @return
      */
     std::map<std::string, std::vector<std::string> > GetRemain(std::string AirlineID);
-    /***
+    /**
      * @brief 获取一个座位的信息
      * @param AirlineID
      * @param SeatID
      * @return
      */
     std::map<std::string ,std::string > GetSeat(std::string AirlineID,std::string SeatID);
-    /***
+    /**
      * @brief 生成订单号
      * @details 订单号：10位随机字符串
      * @return
      */
     std::string GenerateOrderID(void);
 
-    /***
+    /**
      * @brief 订票
      * @param AirlineID
      * @param SeatID
@@ -157,7 +157,7 @@ public:
     std::string
     OrderTickets(std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood, bool HasPackage);
 
-    /***
+    /**
      * @brief 退票
      * @param AirlineID
      * @param OrderID
@@ -175,7 +175,7 @@ public:
 
     ~AirlineTable();
 
-    /***
+    /**
      * @brief 添加航线
      * @param AirlineID
      * @param SrcPosition
@@ -188,18 +188,18 @@ public:
     std::string AddAirline(std::string AirlineID, std::string SrcPosition, std::string DstPosition, std::string SrcTime,
                            std::string DstTime);
 
-    /***
+    /**
      * @brief 删除航线
      * @param AirlineID
      * @return "Airline Succefully Delete" 删除成功
      * @throw "AirlineID doesn't Exist" 航班不存在
      */
     std::string EraseAirline(std::string AirlineID);
-    /***
+    /**
      * @brief 获取航线信息
      */
      std::vector<std::map<std::string,std::string>> GetAirline(void);
-     /***
+     /**
       * @brief 获取航班号对应的航班信息
       * @param AirlineID
       * @return
@@ -213,13 +213,13 @@ public:
 
     ~UserTickets();
 
-    /***
+    /**
      * @@brief 新建用户信息表
      * @param UserName
      */
     void AddUser(std::string UserName);
 
-    /***
+    /**
      * @brief 订票
      * @param User
      * @param AirlineID
@@ -242,7 +242,7 @@ public:
                 bool HasPackage, std::string OrderID, std::string SrcPosition, std::string DstPosition,
                 std::string SrcTime, std::string DstTime);
 
-    /***
+    /**
      * @brief 取消订单
      * @param Username
      * @param OrderID
@@ -252,13 +252,13 @@ public:
      */
     std::string CancelTicket(std::string Username, std::string OrderID);
 
-    /***
+    /**
      * @brief 获取用户的全部订单
      * @param UserName
      * @return
      */
     std::vector<std::map<std::string, std::string>> ViewAllTickets(std::string UserName);
-    /***
+    /**
      * @brief 获取订单号
      * @param UserName
      * @param pk
