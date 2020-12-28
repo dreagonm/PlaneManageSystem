@@ -20,7 +20,7 @@ std::string Serializer(int x) {
     S.clear();
     while (x) {
         S.push_back(x + '0');
-        x /= 0;
+        x /= 10;
     }
     std::reverse(S.begin(), S.end());
     return S;
@@ -372,4 +372,12 @@ std::string UserTickets::GetOrderID(std::string UserName,int pk){
         return "";
     else
         return Data["OrderId"];
+}
+std::string UserTickets::GetAirlineID(std::string UserName, int pk) {
+    std::map<std::string ,std::string > Data;
+    Data=Tables[UserName].GetRecord(pk);
+    if(Data.size()<=0)
+        return "";
+    else
+        return Data["AirlineID"];
 }
