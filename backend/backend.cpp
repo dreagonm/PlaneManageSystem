@@ -363,3 +363,11 @@ std::vector<std::map<std::string, std::string> > UserTickets::ViewAllTickets(std
     }
     return rev;
 }
+std::string UserTickets::GetOrderID(std::string UserName,int pk){
+    std::map<std::string ,std::string > Data;
+    Data=Tables[UserName].GetRecord(pk);
+    if(Data.size()<=0)
+        return "";
+    else
+        return Data["OrderId"];
+}

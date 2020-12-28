@@ -258,6 +258,13 @@ public:
      * @return
      */
     std::vector<std::map<std::string, std::string>> ViewAllTickets(std::string UserName);
+    /***
+     * @brief 获取订单号
+     * @param UserName
+     * @param pk
+     * @return
+     */
+    std::string GetOrderID(std::string UserName,int pk);
 };
 
 
