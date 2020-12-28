@@ -191,16 +191,51 @@ public:
     UserTickets();
 
     ~UserTickets();
-
+    /***
+     * @@brief 新建用户信息表
+     * @param UserName
+     */
+    void AddUser(std::string UserName);
+    /***
+     * @brief 订票
+     * @param User
+     * @param AirlineID
+     * @param SeatID
+     * @param SeatLevel
+     * @param Passenger
+     * @param HasFood
+     * @param HasPackage
+     * @param OrderID
+     * @param SrcPosition
+     * @param DstPosition
+     * @param SrcTime
+     * @param DstTime
+     * @return "Successfully Ordered Ticket"
+     * @throw "User Does Not Exist" 用户不存在
+     */
     std::string
-    OrderTicket(std::string User, std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood,
+    OrderTicket(std::string User, std::string AirlineID, std::string SeatID,std::string SeatLevel, std::string Passenger, bool HasFood,
                 bool HasPackage, std::string OrderID, std::string SrcPosition, std::string DstPosition,
                 std::string SrcTime, std::string DstTime);
 
-    std::string CancelTicket(std::string OrderID);
-
-    std::vector<std::map<std::string, std::string>> ViewAllTickets(std::string User);
+    /***
+     * @brief 取消订单
+     * @param Username
+     * @param OrderID
+     * @return "Successfully Cancel Order"
+     * @throw "User Does Not Exist" 用户不存在
+     * @throw "Order Dose Not Exist" 订单不存在
+     */
+    std::string CancelTicket(std::string Username,std::string OrderID);
+    /***
+     * @brief 获取用户的全部订单
+     * @param UserName
+     * @return
+     */
+    std::vector<std::map<std::string, std::string>> ViewAllTickets(std::string UserName);
 };
+
+
 /// TODO 一些飞机的预设
 /*
 class Flights : public Data_Base {

@@ -256,3 +256,71 @@ std::string AirlineTable::EraseAirline(std::string AirlineID) {
     return "Airline Succefully Delete";
 }
 
+UserTickets::UserTickets() {
+
+}
+UserTickets::~UserTickets() {
+
+}
+
+void UserTickets::AddUser(std::string UserName) {
+    NewTable(UserName);
+    Tables[UserName].AddField("AirlineID");
+    Tables[UserName].AddField("SrcPosition");
+    Tables[UserName].AddField("DstPosition");
+    Tables[UserName].AddField("SrcTime");
+    Tables[UserName].AddField("DstTime");
+    Tables[UserName].AddField("SeatId");
+    Tables[UserName].AddField("SeatLevel");
+    Tables[UserName].AddField("Passenger");
+    Tables[UserName].AddField("HasFood");
+    Tables[UserName].AddField("HasPackageTransform");
+    Tables[UserName].AddField("OrderId");
+}
+
+std::string UserTickets::OrderTicket(std::string UserName, std::string AirlineID, std::string SeatID,std::string SeatLevel, std::string Passenger,
+                                     bool HasFood, bool HasPackage, std::string OrderID, std::string SrcPosition,
+                                     std::string DstPosition, std::string SrcTime, std::string DstTime) {
+    if(Tables.count(UserName)==0)
+        return "User Does Not Exist";
+    std::vector<std::string> tmp1, tmp2;
+    tmp1.clear();
+    tmp2.clear();
+    tmp1.push_back("AirlineID"), tmp2.push_back(AirlineID);
+    tmp1.push_back("SrcPosition"), tmp2.push_back(SrcPosition);
+    tmp1.push_back("DstPosition"), tmp2.push_back(DstPosition);
+    tmp1.push_back("SrcTime"), tmp2.push_back(SrcTime);
+    tmp1.push_back("DstTime"), tmp2.push_back(DstTime);
+    tmp1.push_back("SeatId"), tmp2.push_back(SeatID);
+    tmp1.push_back("SeatLevel"), tmp2.push_back(SeatLevel);
+    tmp1.push_back("Passenger"), tmp2.push_back(Passenger);
+    tmp1.push_back("HasFood"), tmp2.push_back(Bool_Serializer(HasFood));
+    tmp1.push_back("HasPackageTransform"), tmp2.push_back(Bool_Serializer(HasPackage));
+    tmp1.push_back("OrderId"), tmp2.push_back(OrderID);
+    Tables[UserName].AddRecord(tmp1, tmp2);
+    return "Successfully Ordered Ticket";
+}
+
+std::string UserTickets::CancelTicket(std::string Username,std::string OrderID) {
+    if(Tables.count(Username)==0)
+        return "User Does Not Exist";
+    int tmp=Tables[Username].FilterForRecord("OrderId",OrderID);
+    if(tmp==-1)
+        return "Order Dose Not Exist";
+    Tables[Username].EraseRecord(tmp);
+    return "Successfully Cancel Order";
+}
+
+std::vector<std::map<std::string,std::string> > UserTickets::ViewAllTickets(std::string UserName) {
+    std::vector<std::map<std::string,std::string> > rev;
+    rev.clear();
+    if(Tables.count(UserName)==0)
+        return rev;
+    int tmp=Tables[UserName].GetLastestRecord()+1;
+    for(int i=0;i<tmp;i++){
+        std::map<std::string,std::string> TMP = Tables[UserName].GetRecord(i);
+        if(TMP.size()>0)
+            rev.push_back(TMP);
+    }
+    return rev;
+}
