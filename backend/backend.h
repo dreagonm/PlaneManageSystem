@@ -265,6 +265,12 @@ public:
      * @return
      */
     std::string GetOrderID(std::string UserName,int pk);
+    /**
+     * @brief 获取航班号
+     * @param UserName
+     * @param pk
+     * @return
+     */
     std::string GetAirlineID(std::string UserName,int pk);
 };
 

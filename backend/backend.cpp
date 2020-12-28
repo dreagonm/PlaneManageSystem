@@ -360,8 +360,10 @@ std::vector<std::map<std::string, std::string> > UserTickets::ViewAllTickets(std
     int tmp = Tables[UserName].GetLastestRecord() + 1;
     for (int i = 0; i < tmp; i++) {
         std::map<std::string, std::string> TMP = Tables[UserName].GetRecord(i);
-        if (TMP.size() > 0)
+        if (TMP.size() > 0){
+            TMP["pk"]=i;
             rev.push_back(TMP);
+        }
     }
     return rev;
 }
