@@ -259,6 +259,7 @@ std::string AirlineTable::EraseAirline(std::string AirlineID) {
 UserTickets::UserTickets() {
 
 }
+
 UserTickets::~UserTickets() {
 
 }
@@ -278,10 +279,12 @@ void UserTickets::AddUser(std::string UserName) {
     Tables[UserName].AddField("OrderId");
 }
 
-std::string UserTickets::OrderTicket(std::string UserName, std::string AirlineID, std::string SeatID,std::string SeatLevel, std::string Passenger,
-                                     bool HasFood, bool HasPackage, std::string OrderID, std::string SrcPosition,
-                                     std::string DstPosition, std::string SrcTime, std::string DstTime) {
-    if(Tables.count(UserName)==0)
+std::string
+UserTickets::OrderTicket(std::string UserName, std::string AirlineID, std::string SeatID, std::string SeatLevel,
+                         std::string Passenger,
+                         bool HasFood, bool HasPackage, std::string OrderID, std::string SrcPosition,
+                         std::string DstPosition, std::string SrcTime, std::string DstTime) {
+    if (Tables.count(UserName) == 0)
         return "User Does Not Exist";
     std::vector<std::string> tmp1, tmp2;
     tmp1.clear();
@@ -301,25 +304,25 @@ std::string UserTickets::OrderTicket(std::string UserName, std::string AirlineID
     return "Successfully Ordered Ticket";
 }
 
-std::string UserTickets::CancelTicket(std::string Username,std::string OrderID) {
-    if(Tables.count(Username)==0)
+std::string UserTickets::CancelTicket(std::string Username, std::string OrderID) {
+    if (Tables.count(Username) == 0)
         return "User Does Not Exist";
-    int tmp=Tables[Username].FilterForRecord("OrderId",OrderID);
-    if(tmp==-1)
+    int tmp = Tables[Username].FilterForRecord("OrderId", OrderID);
+    if (tmp == -1)
         return "Order Dose Not Exist";
     Tables[Username].EraseRecord(tmp);
     return "Successfully Cancel Order";
 }
 
-std::vector<std::map<std::string,std::string> > UserTickets::ViewAllTickets(std::string UserName) {
-    std::vector<std::map<std::string,std::string> > rev;
+std::vector<std::map<std::string, std::string> > UserTickets::ViewAllTickets(std::string UserName) {
+    std::vector<std::map<std::string, std::string> > rev;
     rev.clear();
-    if(Tables.count(UserName)==0)
+    if (Tables.count(UserName) == 0)
         return rev;
-    int tmp=Tables[UserName].GetLastestRecord()+1;
-    for(int i=0;i<tmp;i++){
-        std::map<std::string,std::string> TMP = Tables[UserName].GetRecord(i);
-        if(TMP.size()>0)
+    int tmp = Tables[UserName].GetLastestRecord() + 1;
+    for (int i = 0; i < tmp; i++) {
+        std::map<std::string, std::string> TMP = Tables[UserName].GetRecord(i);
+        if (TMP.size() > 0)
             rev.push_back(TMP);
     }
     return rev;
