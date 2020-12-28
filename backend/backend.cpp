@@ -160,6 +160,8 @@ void Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, 
 std::map<std::string, std::vector<std::string> > Tickets::GetRemain(std::string AirlineID) {
     std::map<std::string, std::vector<std::string> > rev;
     rev.clear();
+    if(Tables.count(AirlineID)==0)
+        return rev;
     std::set<int> tmp = Tables[AirlineID].GetAllRecordsWithoutSpecialField("Passenger");
     std::map<std::string, std::string> data_tmp;
     data_tmp.clear();
