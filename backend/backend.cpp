@@ -170,6 +170,17 @@ std::map<std::string, std::vector<std::string> > Tickets::GetRemain(std::string 
     return rev;
 }
 
+std::map<std::string ,std::string > Tickets::GetSeat(std::string AirlineID, std::string SeatID) {
+    std::map<std::string ,std::string > rev;
+    rev.clear();
+    int tmp=Tables[AirlineID].FilterForRecord("SeatId",SeatID);
+    if(tmp==-1)
+        return rev;
+    else
+        rev=Tables[AirlineID].GetRecord(tmp);
+    return rev;
+}
+
 std::string Tickets::GenerateOrderID(void) {
     std::string tmp;
     tmp.clear();

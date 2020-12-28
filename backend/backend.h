@@ -128,7 +128,13 @@ public:
      * @return
      */
     std::map<std::string, std::vector<std::string> > GetRemain(std::string AirlineID);
-
+    /***
+     * @brief 获取一个座位的信息
+     * @param AirlineID
+     * @param SeatID
+     * @return
+     */
+    std::map<std::string ,std::string > GetSeat(std::string AirlineID,std::string SeatID);
     /***
      * @brief 生成订单号
      * @details 订单号：10位随机字符串
