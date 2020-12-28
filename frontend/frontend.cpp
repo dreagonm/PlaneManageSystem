@@ -301,7 +301,58 @@ void Worker::OrderWork(std::string UserName) {
                              Data["SrcPosition"], Data["DstPosition"], Data["SrcTime"], Data["DstTime"]);
     /// TODO 机票输出
 }
-
+void Worker::CancelWork(std::string UserName, int TicketsId) {
+    cout<<"Canceling Your Order..."<<endl;
+    string OrdId=UserTickets_.GetOrderID(UserName,TicketsId);
+    if(OrdId=="") {
+        cout<<"Some Mistake Occur,Cancel Failed"<<endl;
+        return;
+    }
+    string AirlineId=UserTickets_.GetAirlineID(UserName,TicketsId);
+    Tickets_.CancelOrder(AirlineId,OrdId);
+    UserTickets_.CancelTicket(UserName,OrdId);
+    cout<<"Successfully Canceled"<<endl;
+}
+void Worker::GenerateAnTicket(std::string AirlineID, std::string SeatID, std::string SeatLevel, std::string Passenger,
+                              bool HasFood, bool HasPackage, std::string OrderID, std::string SrcPosition,
+                              std::string DstPosition, std::string SrcTime, std::string DstTime) {
+    cout<<"**-————————————"<<endl;
+    cout<<"------------------------------------------------------------------------------------------------------"<<endl;
+    cout<<"| AirlineID: "<<setw(20)<<AirlineID        <<" | SeatID:   "<<setw(20)<<SeatID     <<" | SeatLevel: "<<setw(20)<<SeatLevel<<" |"<<endl;
+    cout<<"| From:      "<<setw(20)<<SrcPosition      <<" | TO:       "<<setw(20)<<DstPosition<<" | Passenger: "<<setw(20)<<Passenger<<" |"<<endl;
+    cout<<"| LanchTime: "<<setw(20)<<SrcTime          <<" | LandTime: "<<setw(20)<<DstTime    <<" | Have a Nice Trip!               |"<<endl;
+    cout<<"| HasFood:   "<<setw(20)<<string((HasFood)?"Yes":"No")<<" | HasBaggageCheckin: "<<setw(11)<<string((HasPackage)?"Yes":"No")        <<setw(36)<<" |"<<endl;
+    cout<<"------------------------------------------------------------------------------------------------------"<<endl;
+    cout<<endl<<endl;
+}
+//--------------------------------------------------------
+//| AirlineID:   %20s  | SeatID:  %20s  | SeatLevel: %20s  |
+//| From:       %20s   | TO: %20s       | Passenger: %20s  |
+//| LanchTime: %20s                                        |
+//| LandTIme:  @20s                                        |
+//| HasFood:True/False        | HasBaggageCheckin: True/False|
+//----------------------------------------------------------
+void Worker::ViewWork(std::string UserName) {
+    cout<<"Getting "<<UserName<<"'s tickets..."<<endl;
+    auto Rev=UserTickets_.ViewAllTickets(UserName);
+    for(int i=0;i<Rev.size();i++){
+        cout<<Rev[i]["pk"]<<":"<<endl;
+        GenerateAnTicket(Rev[i]["AirlineID"],Rev[i]["SeatId"],
+                         Rev[i]["SeatLevel"],Rev[i]["Passenger"],
+                         Bool_DeSerializer(Rev[i]["HasFood"]),
+                         Bool_DeSerializer(Rev[i]["HasPackageTransform"]),
+                         Rev[i]["OrderId"],Rev[i]["SrcPosition"],
+                         Rev[i]["DstPosition"],Rev[i]["SrcTime"],Rev[i]["DstTime"]
+        );
+    }
+    cout<<"That's all"<<endl;
+}
+void Worker::UserLogoutWork(std::string UserName, int UUID_) {
+    UserLogin_.LogOut(UUID_);
+    permission=0;
+    myUUID=0;
+    cout<<"Successfully Logout"<<endl;
+}
 void Worker::UserWork() {
     if (permission < 1) {
         cout << "Access Denied,Please reLogin" << endl;
@@ -329,13 +380,13 @@ void Worker::UserWork() {
             OrderWork(UserName);
             break;
         case 2:
-            CancelWork();
+            CancelWork(UserName,);
             break;
         case 3:
-            ViewWork();
+            ViewWork(UserName);
             break;
         default:
-            UserLogoutWork();
+            UserLogoutWork(UserName,myUUID);
             return;
             break;
     }

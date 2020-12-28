@@ -45,9 +45,13 @@ public:
 
     void ViewRemainTicketWork();
     void OrderWork(std::string UserName);
-    void CancelWork();
-    void ViewWork();
-    void UserLogoutWork();
+    void CancelWork(std::string UserName,int TicketsId);
+    void ViewWork(std::string UserName);
+    void GenerateAnTicket(std::string AirlineID, std::string SeatID, std::string SeatLevel,
+                          std::string Passenger, bool HasFood,
+                          bool HasPackage, std::string OrderID, std::string SrcPosition, std::string DstPosition,
+                          std::string SrcTime, std::string DstTime);
+    void UserLogoutWork(std::string UserName,int UUID_);
     /**
      * @brief 处理用户操作
      */
@@ -57,7 +61,6 @@ public:
     void AddSeatWork();
     void EraseSeatWork();
     void AdminWork();
-
 private:
     int myUUID,permission;
 };
