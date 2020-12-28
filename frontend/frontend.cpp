@@ -3,151 +3,154 @@
 //
 
 #include "frontend.h"
+
 UserLogin UserLogin_;
 AdminLogin AdminLogin_;
 AirlineTable AirlineTable_;
 Tickets Tickets_;
 UserTickets UserTickets_;
-Worker::Worker() : myUUID(0),permission(0){
+
+Worker::Worker() : myUUID(0), permission(0) {
 
 }
+
 Worker::~Worker() {
 
 }
+
 void Worker::InitWork() {
-    cout<<"Welcome to PlaneManageSystem"<<endl;
+    cout << "Welcome to PlaneManageSystem" << endl;
 }
-bool Worker::ErrorAndRetry(std::string Message="Retry?(y/n)") {
-    cout<<Message<<endl;
-    string opt="a";
-    while(opt!="y"&&opt!="n"){
-        cin>>opt;
-        if(opt=="y"){
+
+bool Worker::ErrorAndRetry(std::string Message = "Retry?(y/n)") {
+    cout << Message << endl;
+    string opt = "a";
+    while (opt != "y" && opt != "n") {
+        cin >> opt;
+        if (opt == "y") {
             return true;
-        }
-        else if(opt=="n"){
+        } else if (opt == "n") {
             return false;
         }
     }
 }
+
 void Worker::RegisterWork() {
-    int tmp=1;
-    bool firstrun= true;
-    while(tmp){
-        if(firstrun) {
+    int tmp = 1;
+    bool firstrun = true;
+    while (tmp) {
+        if (firstrun) {
             cout << "Registing Accounts" << endl;
-            firstrun= false;
+            firstrun = false;
         }
-        cout<<"Enter Your Account Name"<<endl;
-        string UserName,PassWord;
-        cin>>UserName;
-        while(UserName==""){
-            cout<<"User Name Invailid"<<endl;
-            if(ErrorAndRetry())
-                tmp=1;
-            else{
-                cout<<"Sorry,Regist Failed"<<endl;
-                tmp=0;
+        cout << "Enter Your Account Name" << endl;
+        string UserName, PassWord;
+        cin >> UserName;
+        while (UserName == "") {
+            cout << "User Name Invailid" << endl;
+            if (ErrorAndRetry())
+                tmp = 1;
+            else {
+                cout << "Sorry,Regist Failed" << endl;
+                tmp = 0;
             }
         }
-        cout<<"Enter Your Account Password"<<endl;
-        cin>>PassWord;
-        tmp=UserLogin_.Register(UserName,PassWord);
-        if(tmp==0){
-            cout<<"Succefully Register"<<endl;
+        cout << "Enter Your Account Password" << endl;
+        cin >> PassWord;
+        tmp = UserLogin_.Register(UserName, PassWord);
+        if (tmp == 0) {
+            cout << "Succefully Register" << endl;
             UserTickets_.AddUser(UserName);
-        }
-        else{
-            cout<<"User Name Invailid"<<endl;
-            if(ErrorAndRetry())
-                tmp=1;
-            else{
-                cout<<"Sorry,Regist Failed"<<endl;
-                tmp=0;
+        } else {
+            cout << "User Name Invailid" << endl;
+            if (ErrorAndRetry())
+                tmp = 1;
+            else {
+                cout << "Sorry,Regist Failed" << endl;
+                tmp = 0;
             }
         }
     }
 }
+
 void Worker::UserLoginWork() {
-    int tmp=1;
-    bool firstrun= true;
-    while(tmp){
-        if(firstrun) {
+    int tmp = 1;
+    bool firstrun = true;
+    while (tmp) {
+        if (firstrun) {
             cout << "Logging in..." << endl;
             firstrun = false;
         }
-        cout<<"Enter Your Account Name"<<endl;
-        string UserName,PassWord;
-        cin>>UserName;
-        cout<<"Enter Your Account Password"<<endl;
-        cin>>PassWord;
-        int rev=UserLogin_.Login(UserName,PassWord);
-        if(rev==0){
-            cout<<"Password Incorrect"<<endl;
-            if(ErrorAndRetry())
-                tmp=1;
-            else{
-                cout<<"Login Failed"<<endl;
-                tmp=0;
+        cout << "Enter Your Account Name" << endl;
+        string UserName, PassWord;
+        cin >> UserName;
+        cout << "Enter Your Account Password" << endl;
+        cin >> PassWord;
+        int rev = UserLogin_.Login(UserName, PassWord);
+        if (rev == 0) {
+            cout << "Password Incorrect" << endl;
+            if (ErrorAndRetry())
+                tmp = 1;
+            else {
+                cout << "Login Failed" << endl;
+                tmp = 0;
             }
-        }
-        else if(rev==-1){
-            cout<<"User Name Doesn't Exist"<<endl;
-            if(ErrorAndRetry())
-                tmp=1;
-            else{
-                cout<<"Login Failed"<<endl;
-                tmp=0;
+        } else if (rev == -1) {
+            cout << "User Name Doesn't Exist" << endl;
+            if (ErrorAndRetry())
+                tmp = 1;
+            else {
+                cout << "Login Failed" << endl;
+                tmp = 0;
             }
-        }
-        else{
-            cout<<"Login Success"<<endl;
-            tmp=0;
-            permission=1;
-            myUUID=rev;
+        } else {
+            cout << "Login Success" << endl;
+            tmp = 0;
+            permission = 1;
+            myUUID = rev;
         }
     }
 }
+
 void Worker::AdminLoginWork() {
-    int tmp=1;
-    bool firstrun= true;
-    while(tmp){
-        if(firstrun) {
+    int tmp = 1;
+    bool firstrun = true;
+    while (tmp) {
+        if (firstrun) {
             cout << "Logging in...(Admin)" << endl;
             firstrun = false;
         }
-        cout<<"Enter Your Account Name"<<endl;
-        string UserName,PassWord;
-        cin>>UserName;
-        cout<<"Enter Your Account Password"<<endl;
-        cin>>PassWord;
-        int rev=AdminLogin_.Login(UserName,PassWord);
-        if(rev==0){
-            cout<<"Password Incorrect"<<endl;
-            if(ErrorAndRetry())
-                tmp=1;
-            else{
-                cout<<"Login Failed"<<endl;
-                tmp=0;
+        cout << "Enter Your Account Name" << endl;
+        string UserName, PassWord;
+        cin >> UserName;
+        cout << "Enter Your Account Password" << endl;
+        cin >> PassWord;
+        int rev = AdminLogin_.Login(UserName, PassWord);
+        if (rev == 0) {
+            cout << "Password Incorrect" << endl;
+            if (ErrorAndRetry())
+                tmp = 1;
+            else {
+                cout << "Login Failed" << endl;
+                tmp = 0;
             }
-        }
-        else if(rev==-1){
-            cout<<"User Name Doesn't Exist"<<endl;
-            if(ErrorAndRetry())
-                tmp=1;
-            else{
-                cout<<"Login Failed"<<endl;
-                tmp=0;
+        } else if (rev == -1) {
+            cout << "User Name Doesn't Exist" << endl;
+            if (ErrorAndRetry())
+                tmp = 1;
+            else {
+                cout << "Login Failed" << endl;
+                tmp = 0;
             }
-        }
-        else{
-            cout<<"Login Success"<<endl;
-            tmp=0;
-            permission=2;
-            myUUID=rev;
+        } else {
+            cout << "Login Success" << endl;
+            tmp = 0;
+            permission = 2;
+            myUUID = rev;
         }
     }
 }
+
 int Worker::LoginWork() {
     printf("\n"
            "--------------\n"
@@ -156,20 +159,20 @@ int Worker::LoginWork() {
            "| 3.Admin    |\n"
            "| 4.exit     |\n"
            "--------------\n");
-    cout<<"Select Your Login Account:_\b"<<endl;
+    cout << "Select Your Login Account:_\b" << endl;
     int opt;
-    cin>>opt;
+    cin >> opt;
     switch (opt) {
         case 1:
-            cout<<"Registing"<<endl;
+            cout << "Registing" << endl;
             RegisterWork();
             break;
         case 2:
-            cout<<"Loging in As User"<<endl;
+            cout << "Loging in As User" << endl;
             UserLoginWork();
             break;
         case 3:
-            cout<<"Loging in As Admin"<<endl;
+            cout << "Loging in As Admin" << endl;
             AdminLoginWork();
             break;
         default:
@@ -177,6 +180,7 @@ int Worker::LoginWork() {
             break;
     }
 }
+
 //--------------
 //| 1.Register |
 //| 2.User     |
@@ -184,58 +188,145 @@ int Worker::LoginWork() {
 //| 4.exit     |
 //--------------
 void Worker::ViewAirlineWork() {
-    auto rev=AirlineTable_.GetAirline();
+    auto rev = AirlineTable_.GetAirline();
     printf("|-------------|-------------|-------------|----------------|----------------|\n"
            "|  AirlineID  |     From    |     TO      | Launching Time |  Landing Time  |\n"
            "|-------------|-------------|-------------|----------------|----------------|\n");
-    for(auto it=rev.begin();it!=rev.end();it++){
+    for (auto it = rev.begin(); it != rev.end(); it++) {
         printf("|-------------|-------------|-------------|----------------|----------------|\n");
         cout.width(12);
-        cout<<"|"<<(*it)["AirlineID"]<<" |"<<(*it)["SrcPosition"]<<" |"<<(*it)["DstPosition"]<<" |";
+        cout << "|" << (*it)["AirlineID"] << " |" << (*it)["SrcPosition"] << " |" << (*it)["DstPosition"] << " |";
         cout.width(15);
-        cout<<(*it)["SrcTime"]<<" |"<<(*it)["DstTime"]<<" |"<<endl;
+        cout << (*it)["SrcTime"] << " |" << (*it)["DstTime"] << " |" << endl;
         cout.width(0);
         printf("|-------------|-------------|-------------|----------------|----------------|\n");
     }
 }
+
 //|-------------|-------------|-------------|----------------|----------------|
 //|  AirlineID  |     From    |     TO      | Launching Time |  Landing Time  |
 //|-------------|-------------|-------------|----------------|----------------|
-void Worker::OrderWork(std::string UserName) {
-    std::string AirlineID, SeatID, SeatLevel, Passenger;
-    bool HasFood,HasPackage;
-    std::string OrderID, SrcPosition, DstPosition, SrcTime, DstTime;
-    cout<<"Ordering A Seat..."<<endl;
-    int tmp=1;
-    while(tmp) {
-        cout << "Enter AirlineID:";
+void Worker::ViewRemainTicketWork() {
+    std::string AirlineID;
+    int tmp = 1;
+    bool firstrun = true;
+    map<string , vector<string>> Data;
+    Data.clear();
+    while (tmp) {
+        if (firstrun) {
+            cout << "Enter AirlineID:";
+            firstrun = false;
+        }
         cin >> AirlineID;
-        auto Data=AirlineTable_.GetAirline(AirlineID);
-        if(Data.size()<=0)
-
+        Data = Tickets_.GetRemain(AirlineID);
+        if (Data.size() <= 0) {
+            cout << "Airline Does not Exist" << endl;
+            if (ErrorAndRetry("ReEnter AirlineID(y/n)?"))
+                tmp = 1;
+            else {
+                cout << "Failed to Get Remain Tickets" << endl;
+                tmp = 0;
+            }
+        } else {
+            cout<<"Getting Remain Tickets Of "<<AirlineID<<" ..."<<endl;
+            tmp=0;
+        }
+    }
+    for(auto it=Data.begin();it!=Data.end();it++){
+        cout<<"Seat Level:"<<(*it).first<<endl;
+        int t=1;
+        for(auto itt=(*it).second.begin();itt!=(*it).second.end();itt++,t++){
+            cout<<(*itt)<<"     ";
+            if(t%3==0)
+                cout<<endl;
+        }
     }
 }
+
+void Worker::OrderWork(std::string UserName) {
+    std::string AirlineID, SeatID, SeatLevel, Passenger;
+    bool HasFood, HasPackage;
+    std::string OrderID;
+    cout << "Ordering A Seat..." << endl;
+    int tmp = 1;
+    bool firstrun = true, EnterAirlineID = false, EnterSeatID = false;
+    map<string, string> Data, SeatData;
+    while (tmp) {
+        if (firstrun) {
+            cout << "Enter AirlineID:";
+            firstrun = false;
+        }
+        if (!EnterAirlineID) {
+            cin >> AirlineID;
+            Data = AirlineTable_.GetAirline(AirlineID);
+            if (Data.size() <= 0) {
+                cout << "Airline Does not Exist" << endl;
+                if (ErrorAndRetry("ReEnter AirlineID(y/n)?"))
+                    tmp = 1;
+                else {
+                    cout << "Failed to Order Tickets" << endl;
+                    tmp = 0;
+                }
+            } else {
+                EnterAirlineID = true;
+                continue;
+            }
+        } else if (!EnterSeatID) {
+            cin >> SeatID;
+            SeatData = Tickets_.GetSeat(AirlineID, SeatID);
+            if (SeatData.size() <= 0) {
+                cout << "Seat Does Not Exist" << endl;
+                if (ErrorAndRetry("ReEnter SeatID(y/n)?"))
+                    tmp = 1;
+                else {
+                    cout << "Failed to Order Tickets" << endl;
+                    tmp = 0;
+                }
+            } else {
+                SeatLevel = SeatData["SeatLevel"];
+                EnterSeatID = true;
+                continue;
+            }
+        } else {
+            cout << "Enter Passenger Name" << endl;
+            cin >> Passenger;
+            HasFood = ErrorAndRetry("Do you Need Any Food On Plane(y/n)?");
+            HasPackage = ErrorAndRetry("Do you need any baggage check-in service(y/n)?");
+            break;
+        }
+    }
+    OrderID = Tickets_.OrderTickets(AirlineID, SeatID, Passenger, HasFood, HasPackage);
+    /// TODO 错误处理
+    UserTickets_.OrderTicket(UserName, AirlineID, SeatID, SeatLevel, Passenger, HasFood, HasPackage, OrderID,
+                             Data["SrcPosition"], Data["DstPosition"], Data["SrcTime"], Data["DstTime"]);
+    /// TODO 机票输出
+}
+
 void Worker::UserWork() {
-    if(permission<1) {
+    if (permission < 1) {
         cout << "Access Denied,Please reLogin" << endl;
         return;
     }
-    string UserName=UserLogin_.GetUserName(myUUID);
-    cout<<"Hello,"<<UserName<<endl;
+    string UserName = UserLogin_.GetUserName(myUUID);
+    cout << "Hello," << UserName << endl;
     ViewAirlineWork();
     printf("\n"
            "------------------------\n"
+           "| 0.View Remain Ticket |\n"
            "| 1.Order A Seat       |\n"
            "| 2.Cancel An Order    |\n"
            "| 3.Review Your Order  |\n"
            "| 4.Logout and Exit    |\n"
            "------------------------\n");
-    cout<<"Select Your Operation:_\b";
+    cout << "Select Your Operation:_\b";
     int opt;
-    cin>>opt;
+    cin >> opt;
     switch (opt) {
+        case 0:
+            ViewRemainTicketWork();
+            break;
         case 1:
-            OrderWork();
+            OrderWork(UserName);
             break;
         case 2:
             CancelWork();

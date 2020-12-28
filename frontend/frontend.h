@@ -38,7 +38,12 @@ public:
      */
     int LoginWork();
     /* -------------------------------- */
+    /***
+     * @brief 显示所有航班信息
+     */
     void ViewAirlineWork();
+
+    void ViewRemainTicketWork();
     void OrderWork(std::string UserName);
     void CancelWork();
     void ViewWork();
