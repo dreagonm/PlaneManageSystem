@@ -19,7 +19,7 @@ public:
      * @brief 错误重试
      * @return
      */
-    bool ErrorAndRetry();
+    bool ErrorAndRetry(std::string Message);
     /***
      * @brief 注册
      */

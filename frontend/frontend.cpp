@@ -17,8 +17,8 @@ Worker::~Worker() {
 void Worker::InitWork() {
     cout<<"Welcome to PlaneManageSystem"<<endl;
 }
-bool Worker::ErrorAndRetry(void) {
-    cout<<"Retry?(y/n)";
+bool Worker::ErrorAndRetry(std::string Message="Retry?(y/n)") {
+    cout<<Message<<endl;
     string opt="a";
     while(opt!="y"&&opt!="n"){
         cin>>opt;
