@@ -10,7 +10,7 @@
 /// TODO 完善的用户控制
 /// TODO 航线ID与航班ID分离
 /// TODO 用户名与订票名分离
-extern std::set<int> UUIDpool;
+extern std::map<int,std::string> UUIDpool;
 extern std::set<std::string> GlobalOrderID;
 
 template<typename T>
@@ -55,7 +55,12 @@ public:
     UserLogin();
 
     ~UserLogin();
-
+    /***
+     * @brief 通过UUID获取用户名
+     * @param UUID_
+     * @return
+     */
+    std::string GetUserName(int UUID_);
     /***
      * @brief 用户注册
      * @param _UserName
@@ -184,6 +189,10 @@ public:
      * @throw "AirlineID doesn't Exist" 航班不存在
      */
     std::string EraseAirline(std::string AirlineID);
+    /***
+     * @brief 获取航线信息
+     */
+     std::vector<std::map<std::string,std::string>> GetAirline(void);
 };
 
 class UserTickets : public Data_Base {

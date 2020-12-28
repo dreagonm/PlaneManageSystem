@@ -4,7 +4,7 @@
 
 #include "backend.h"
 
-std::set<int> UUIDpool;
+std::map<int,std::string> UUIDpool;
 std::set<std::string> GlobalOrderID;
 
 template<typename T>
@@ -56,7 +56,12 @@ UserLogin::UserLogin() : Data_Base() {
 UserLogin::~UserLogin() {
 
 }
-
+std::string UserLogin::GetUserName(int UUID_) {
+    if(UUIDpool.count(UUID_)==0)
+        return "";
+    else
+        return UUIDpool[UUID_];
+}
 int UserLogin::Register(std::string _UserName, std::string _UserPassword) {
     if (Tables["UserInfo"].FilterForRecord("UserName", _UserName) != -1)
         return 1;//用户名重复
@@ -80,7 +85,7 @@ int UserLogin::Login(std::string _UserName, std::string _UserPassword) {
             tmpUUID = ((rand() % 39831) << 14) * (rand() % 19260817);
         Tables["UserInfo"].AddRecordField(tmp, "UserUUID", Serializer(tmpUUID));
         ///    UUID_.insert(tmpUUID);
-        UUIDpool.insert(tmpUUID);
+        UUIDpool[tmpUUID]=_UserName;
         return tmpUUID;
     }///密码正确
     else {
@@ -254,6 +259,17 @@ std::string AirlineTable::EraseAirline(std::string AirlineID) {
         return "AirlineID doesn't Exist";
     Tables["Airlines"].EraseRecord(tmp);
     return "Airline Succefully Delete";
+}
+std::vector<std::map<std::string,std::string>> AirlineTable::GetAirline(void){
+    std::vector<std::map<std::string,std::string>> rev;
+    rev.clear();
+    int tmp=Tables["Airlines"].GetLastestRecord()+1;
+    for(int i=0;i<tmp;i++){
+        auto TMP=Tables["Airlines"].GetRecord(i);
+        if(TMP.size()>0)
+            rev.push_back(TMP);
+    }
+    return rev;
 }
 
 UserTickets::UserTickets() {
