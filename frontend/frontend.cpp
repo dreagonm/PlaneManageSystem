@@ -216,7 +216,7 @@ void Worker::ViewRemainTicketWork() {
     map<string, vector<string>> Data;
     Data.clear();
     while (tmp) {
-        cout << "Enter AirlineID:";
+        cout << "Enter AirlineID:"<<endl;
         cin >> AirlineID;
         Data = Tickets_.GetRemain(AirlineID);
         if (Data.size() <= 0) {
