@@ -350,7 +350,7 @@ std::set<int> Table::GetAllRecordsWithoutSpecialField(std::string _Field) {
     for (int i = 0; i < PrimaryKey; i++)
         if (Records.count(i) && (!SearchRecord[_Field].count(i)))
             tmp.insert(i);
-    return SearchRecord[_Field];
+    return tmp;
 }
 
 std::map<std::string, std::string> Table::GetRecord(int pk) {
