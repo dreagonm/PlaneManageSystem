@@ -341,6 +341,7 @@ std::set<int> Table::GetAllRecordsWithSpecialFields(std::vector<std::string> _Fi
             std::set_intersection(tmp3.begin(), tmp3.end(), tmp2.begin(), tmp2.end(), std::inserter(tmp, tmp.begin()));
         }
     }
+    return tmp;
 }
 
 std::set<int> Table::GetAllRecordsWithoutSpecialField(std::string _Field) {

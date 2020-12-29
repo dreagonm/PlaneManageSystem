@@ -13,7 +13,7 @@
 #include <set>
 #include <string>
 #include <algorithm>
-
+#include <iterator>
 class Record {
 public:
     Record();

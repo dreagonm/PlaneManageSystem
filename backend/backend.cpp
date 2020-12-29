@@ -161,6 +161,7 @@ int Tickets::NewAirLine(std::string AirlineID) {
 }
 int Tickets::EraseAirline(std::string AirlineID){
     Tables.erase(AirlineID);
+    return 0;
 }
 int Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
     if (Tables.count(AirLineID))
