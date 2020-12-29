@@ -213,14 +213,10 @@ void Worker::ViewAirlineWork() {
 void Worker::ViewRemainTicketWork() {
     std::string AirlineID;
     int tmp = 1;
-    bool firstrun = true;
     map<string, vector<string>> Data;
     Data.clear();
     while (tmp) {
-        if (firstrun) {
-            cout << "Enter AirlineID:";
-            firstrun = false;
-        }
+        cout << "Enter AirlineID:";
         cin >> AirlineID;
         Data = Tickets_.GetRemain(AirlineID);
         if (Data.size() <= 0) {
