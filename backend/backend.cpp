@@ -442,7 +442,7 @@ std::vector<std::map<std::string, std::string> > UserTickets::ViewAllTickets(std
     for (int i = 0; i < tmp; i++) {
         std::map<std::string, std::string> TMP = Tables[UserName].GetRecord(i);
         if (TMP.size() > 0) {
-            TMP["pk"] = i;
+            TMP["pk"] = Serializer(i);
             rev.push_back(TMP);
         }
     }
