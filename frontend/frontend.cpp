@@ -341,7 +341,7 @@ void Worker::CancelWork(std::string UserName) {
 void Worker::GenerateAnTicket(std::string AirlineID, std::string SeatID, std::string SeatLevel, std::string Passenger,
                               bool HasFood, bool HasPackage, std::string OrderID, std::string SrcPosition,
                               std::string DstPosition, std::string SrcTime, std::string DstTime) {
-    cout << "**-————————————" << endl;
+    cout << "**-------------" << endl;
     cout << "------------------------------------------------------------------------------------------------------"
          << endl;
     cout << "| AirlineID: " << setw(20) << AirlineID << " | SeatID:   " << setw(20) << SeatID << " | SeatLevel: "

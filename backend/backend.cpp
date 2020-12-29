@@ -18,6 +18,10 @@ std::vector<T> Wrapper(T x) {
 std::string Serializer(int x) {
     std::string S;
     S.clear();
+    if(x==0){
+        S.push_back('0');
+        return S;
+    }
     bool f=true;
     if(x<0)
         f=false;
