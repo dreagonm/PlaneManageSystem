@@ -177,7 +177,7 @@ void Table::EraseRecords(std::vector<std::string> _Fields, std::vector<std::stri
 
 void Table::AddField(std::string _Field) {
     Fields.insert(_Field);
-    SearchRecord.clear();
+    SearchRecord[_Field].clear();
 }
 
 void Table::AddFields(std::vector<std::string> _Fields) {
