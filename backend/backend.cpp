@@ -268,7 +268,7 @@ std::vector<std::map<std::string, std::string>> Tickets::GetTickets(std::string 
     std::vector<std::map<std::string, std::string>> Rev;
     Rev.clear();
     if (Tables.count(AirlineID) == 0)
-        return Rev;
+        throw "Airline Does not Exist";
     std::set<int> tmp = Tables[AirlineID].GetAllRecordsWithSpecialField("Passenger");
     std::map<std::string, std::string> data_tmp;
     data_tmp.clear();
