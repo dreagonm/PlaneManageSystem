@@ -18,21 +18,31 @@ std::vector<T> Wrapper(T x) {
 std::string Serializer(int x) {
     std::string S;
     S.clear();
+    bool f=true;
+    if(x<0)
+        f=false;
     while (x) {
-        S.push_back(x + '0');
+        S.push_back(x%10 + '0');
         x /= 10;
     }
+    if(!f)
+        S.push_back('-');
     std::reverse(S.begin(), S.end());
     return S;
 }
 
 int DeSeiralizer(std::string x) {
-    int tmp = 0;
-    for (int i = 0; i < x.length(); i++) {
+    int tmp = 0,start=0;
+    if(x.length()>=1&&x[0]=='-')
+        start=1;
+    for (int i = start; i < x.length(); i++) {
         tmp *= 10;
         tmp += x[i] - '0';
     }
-    return tmp;
+    if(!start)
+        return tmp;
+    else
+        return -tmp;
 }
 
 std::string Bool_Serializer(bool t) {
