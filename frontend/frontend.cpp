@@ -241,6 +241,7 @@ void Worker::ViewRemainTicketWork() {
             if (t % 3 == 0)
                 cout << endl;
         }
+        cout<<"----------------------------"<<endl;
     }
 }
 
