@@ -127,7 +127,9 @@ Tickets::~Tickets() {
 
 }
 
-void Tickets::NewAirLine(std::string AirlineID) {
+int Tickets::NewAirLine(std::string AirlineID) {
+    if(Tables.count(AirlineID))
+        return 0;
     NewTable(AirlineID);
     std::vector<std::string> tmp1;
     tmp1.push_back("SeatId");/// 座位号
@@ -137,9 +139,12 @@ void Tickets::NewAirLine(std::string AirlineID) {
     tmp1.push_back("HasPackageTransform");/// 有无托运
     tmp1.push_back("OrderId");/// 订单号
     Tables[AirlineID].AddFields(tmp1);
+    return 1;
 }
 
-void Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
+int Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
+    if(Tables.count(AirlineID))
+        return 0;
     NewTable(AirLineID);
     Tables[AirLineID].AddField("SeatId");
     Tables[AirLineID].AddField("SeatLevel");
@@ -155,6 +160,7 @@ void Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, 
         tmp2.push_back(SeatsLevel[i]);
         Tables[AirLineID].AddRecord(tmp1, tmp2);
     }
+    return 1;
 }
 
 std::map<std::string, std::vector<std::string> > Tickets::GetRemain(std::string AirlineID) {

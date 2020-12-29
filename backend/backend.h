@@ -113,7 +113,7 @@ public:
      * @brief 新建一条航班线路
      * @param AirlineID
      */
-    void NewAirLine(std::string AirlineID);
+    int NewAirLine(std::string AirlineID);
 
     /**
      * @brief 新建一条航班线路并且直接添加坐席数据
@@ -121,7 +121,7 @@ public:
      * @param Seats
      * @param SeatsLevel
      */
-    void NewAirLine(std::string AirlineID, std::vector<std::string> Seats, std::vector<std::string> SeatLevel);
+    int NewAirLine(std::string AirlineID, std::vector<std::string> Seats, std::vector<std::string> SeatLevel);
 
     /**
      * @brief 获取当前未被预定的座位
