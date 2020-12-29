@@ -143,7 +143,7 @@ int Tickets::NewAirLine(std::string AirlineID) {
 }
 
 int Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
-    if(Tables.count(AirlineID))
+    if(Tables.count(AirLineID))
         return 0;
     NewTable(AirLineID);
     Tables[AirLineID].AddField("SeatId");
