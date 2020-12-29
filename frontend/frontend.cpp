@@ -215,7 +215,7 @@ void Worker::ViewRemainTicketWork() {
     std::string AirlineID;
     int tmp = 1;
     bool firstrun = true;
-    map<string , vector<string>> Data;
+    map<string, vector<string>> Data;
     Data.clear();
     while (tmp) {
         if (firstrun) {
@@ -234,17 +234,17 @@ void Worker::ViewRemainTicketWork() {
                 return;
             }
         } else {
-            cout<<"Getting Remain Tickets Of "<<AirlineID<<" ..."<<endl;
-            tmp=0;
+            cout << "Getting Remain Tickets Of " << AirlineID << " ..." << endl;
+            tmp = 0;
         }
     }
-    for(auto it=Data.begin();it!=Data.end();it++){
-        cout<<"Seat Level:"<<(*it).first<<endl;
-        int t=1;
-        for(auto itt=(*it).second.begin();itt!=(*it).second.end();itt++,t++){
-            cout<<(*itt)<<"     ";
-            if(t%3==0)
-                cout<<endl;
+    for (auto it = Data.begin(); it != Data.end(); it++) {
+        cout << "Seat Level:" << (*it).first << endl;
+        int t = 1;
+        for (auto itt = (*it).second.begin(); itt != (*it).second.end(); itt++, t++) {
+            cout << (*itt) << "     ";
+            if (t % 3 == 0)
+                cout << endl;
         }
     }
 }
@@ -309,43 +309,52 @@ void Worker::OrderWork(std::string UserName) {
                              Data["SrcPosition"], Data["DstPosition"], Data["SrcTime"], Data["DstTime"]);
     /// TODO 机票输出
 }
+
 void Worker::CancelWork(std::string UserName) {
-    cout<<"Canceling Your Order..."<<endl;
-    cout<<"Cancel Which Ticket?"<<endl;
+    cout << "Canceling Your Order..." << endl;
+    cout << "Cancel Which Ticket?" << endl;
     int TicketsId;
-    int tmp=1;
+    int tmp = 1;
     string OrdId;
-    while(tmp) {
+    while (tmp) {
         cin >> TicketsId;
         OrdId = UserTickets_.GetOrderID(UserName, TicketsId);
         if (OrdId == "") {
             cout << "Some Mistake Occur,Cancel Failed" << endl;
-            if(ErrorAndRetry("ReEnter You Ticket id(y/n)?"))
-                tmp=1;
-            else{
-                cout<<"Quiting"<<endl;
-                tmp=0;
+            if (ErrorAndRetry("ReEnter You Ticket id(y/n)?"))
+                tmp = 1;
+            else {
+                cout << "Quiting" << endl;
+                tmp = 0;
                 return;
             }
         }
     }
-    string AirlineId=UserTickets_.GetAirlineID(UserName,TicketsId);
-    Tickets_.CancelOrder(AirlineId,OrdId);
-    UserTickets_.CancelTicket(UserName,OrdId);
-    cout<<"Successfully Canceled"<<endl;
+    string AirlineId = UserTickets_.GetAirlineID(UserName, TicketsId);
+    Tickets_.CancelOrder(AirlineId, OrdId);
+    UserTickets_.CancelTicket(UserName, OrdId);
+    cout << "Successfully Canceled" << endl;
 }
+
 void Worker::GenerateAnTicket(std::string AirlineID, std::string SeatID, std::string SeatLevel, std::string Passenger,
                               bool HasFood, bool HasPackage, std::string OrderID, std::string SrcPosition,
                               std::string DstPosition, std::string SrcTime, std::string DstTime) {
-    cout<<"**-————————————"<<endl;
-    cout<<"------------------------------------------------------------------------------------------------------"<<endl;
-    cout<<"| AirlineID: "<<setw(20)<<AirlineID        <<" | SeatID:   "<<setw(20)<<SeatID     <<" | SeatLevel: "<<setw(20)<<SeatLevel<<" |"<<endl;
-    cout<<"| From:      "<<setw(20)<<SrcPosition      <<" | TO:       "<<setw(20)<<DstPosition<<" | Passenger: "<<setw(20)<<Passenger<<" |"<<endl;
-    cout<<"| LanchTime: "<<setw(20)<<SrcTime          <<" | LandTime: "<<setw(20)<<DstTime    <<" | Have a Nice Trip!               |"<<endl;
-    cout<<"| HasFood:   "<<setw(20)<<string((HasFood)?"Yes":"No")<<" | HasBaggageCheckin: "<<setw(11)<<string((HasPackage)?"Yes":"No")        <<setw(36)<<" |"<<endl;
-    cout<<"------------------------------------------------------------------------------------------------------"<<endl;
-    cout<<endl<<endl;
+    cout << "**-————————————" << endl;
+    cout << "------------------------------------------------------------------------------------------------------"
+         << endl;
+    cout << "| AirlineID: " << setw(20) << AirlineID << " | SeatID:   " << setw(20) << SeatID << " | SeatLevel: "
+         << setw(20) << SeatLevel << " |" << endl;
+    cout << "| From:      " << setw(20) << SrcPosition << " | TO:       " << setw(20) << DstPosition << " | Passenger: "
+         << setw(20) << Passenger << " |" << endl;
+    cout << "| LanchTime: " << setw(20) << SrcTime << " | LandTime: " << setw(20) << DstTime
+         << " | Have a Nice Trip!               |" << endl;
+    cout << "| HasFood:   " << setw(20) << string((HasFood) ? "Yes" : "No") << " | HasBaggageCheckin: " << setw(11)
+         << string((HasPackage) ? "Yes" : "No") << setw(36) << " |" << endl;
+    cout << "------------------------------------------------------------------------------------------------------"
+         << endl;
+    cout << endl << endl;
 }
+
 //--------------------------------------------------------
 //| AirlineID:   %20s  | SeatID:  %20s  | SeatLevel: %20s  |
 //| From:       %20s   | TO: %20s       | Passenger: %20s  |
@@ -354,26 +363,28 @@ void Worker::GenerateAnTicket(std::string AirlineID, std::string SeatID, std::st
 //| HasFood:True/False        | HasBaggageCheckin: True/False|
 //----------------------------------------------------------
 void Worker::ViewWork(std::string UserName) {
-    cout<<"Getting "<<UserName<<"'s tickets..."<<endl;
-    auto Rev=UserTickets_.ViewAllTickets(UserName);
-    for(int i=0;i<Rev.size();i++){
-        cout<<Rev[i]["pk"]<<":"<<endl;
-        GenerateAnTicket(Rev[i]["AirlineID"],Rev[i]["SeatId"],
-                         Rev[i]["SeatLevel"],Rev[i]["Passenger"],
+    cout << "Getting " << UserName << "'s tickets..." << endl;
+    auto Rev = UserTickets_.ViewAllTickets(UserName);
+    for (int i = 0; i < Rev.size(); i++) {
+        cout << Rev[i]["pk"] << ":" << endl;
+        GenerateAnTicket(Rev[i]["AirlineID"], Rev[i]["SeatId"],
+                         Rev[i]["SeatLevel"], Rev[i]["Passenger"],
                          Bool_DeSerializer(Rev[i]["HasFood"]),
                          Bool_DeSerializer(Rev[i]["HasPackageTransform"]),
-                         Rev[i]["OrderId"],Rev[i]["SrcPosition"],
-                         Rev[i]["DstPosition"],Rev[i]["SrcTime"],Rev[i]["DstTime"]
+                         Rev[i]["OrderId"], Rev[i]["SrcPosition"],
+                         Rev[i]["DstPosition"], Rev[i]["SrcTime"], Rev[i]["DstTime"]
         );
     }
-    cout<<"That's all"<<endl;
+    cout << "That's all" << endl;
 }
+
 void Worker::UserLogoutWork(std::string UserName, int UUID_) {
     UserLogin_.LogOut(UUID_);
-    permission=0;
-    myUUID=0;
-    cout<<"Successfully Logout"<<endl;
+    permission = 0;
+    myUUID = 0;
+    cout << "Successfully Logout" << endl;
 }
+
 void Worker::UserWork() {
     if (permission < 1) {
         cout << "Access Denied,Please reLogin" << endl;
@@ -407,16 +418,17 @@ void Worker::UserWork() {
             ViewWork(UserName);
             break;
         default:
-            UserLogoutWork(UserName,myUUID);
+            UserLogoutWork(UserName, myUUID);
             return;
             break;
     }
 }
+
 void Worker::ViewAirlineOrderWork() {
     std::string AirlineID;
     int tmp = 1;
     bool firstrun = true;
-    vector<map<string , string>> Data;
+    vector<map<string, string>> Data;
     Data.clear();
     while (tmp) {
         if (firstrun) {
@@ -434,17 +446,18 @@ void Worker::ViewAirlineOrderWork() {
                 tmp = 0;
             }
         } else {
-            cout<<"Getting Ordered Tickets Of "<<AirlineID<<" ..."<<endl;
-            tmp=0;
+            cout << "Getting Ordered Tickets Of " << AirlineID << " ..." << endl;
+            tmp = 0;
         }
     }
-    for(int i=0;i<Data.size();i++){
-        cout<<"-----------------"<<endl;
-        cout<<setw(10)<<Data[i]["SeatId"]<<" | "<<setw(10)<<Data[i]["Passenger"]<<" |"<<endl;
-        if(i==Data.size()-1)
-            cout<<"-----------------"<<endl;
+    for (int i = 0; i < Data.size(); i++) {
+        cout << "-----------------" << endl;
+        cout << setw(10) << Data[i]["SeatId"] << " | " << setw(10) << Data[i]["Passenger"] << " |" << endl;
+        if (i == Data.size() - 1)
+            cout << "-----------------" << endl;
     }
 }
+
 void Worker::AddAirlineWork() {
     std::string AirlineID;
     int tmp = 1;
@@ -455,8 +468,8 @@ void Worker::AddAirlineWork() {
             firstrun = false;
         }
         cin >> AirlineID;
-        int rev=Tickets_.NewAirLine(AirlineID);
-        if (rev==0) {
+        int rev = Tickets_.NewAirLine(AirlineID);
+        if (rev == 0) {
             cout << "Airline Already Exist" << endl;
             if (ErrorAndRetry("ReEnter AirlineID(y/n)?"))
                 tmp = 1;
@@ -466,22 +479,23 @@ void Worker::AddAirlineWork() {
                 return;
             }
         } else {
-            cout<<"Adding "<<AirlineID<<" ..."<<endl;
-            tmp=0;
+            cout << "Adding " << AirlineID << " ..." << endl;
+            tmp = 0;
         }
     }
-    string SrcPosition,DstPosition,SrcTime,DstTime;
-    cout<<"Please enter Starting Point:";
-    cin>>SrcPosition;
-    cout<<"Please enter landing Point:";
-    cin>>DstPosition;
-    cout<<"Please enter Launching TIme:";
-    cin>>SrcTime;
-    cout<<"Please enter Landing Time:";
-    cin>>DstTime;
-    AirlineTable_.AddAirline(AirlineID,SrcPosition,DstPosition,SrcTime,DstTime);
-    cout<<"Successfully Add an Airline"<<endl;
+    string SrcPosition, DstPosition, SrcTime, DstTime;
+    cout << "Please enter Starting Point:";
+    cin >> SrcPosition;
+    cout << "Please enter landing Point:";
+    cin >> DstPosition;
+    cout << "Please enter Launching TIme:";
+    cin >> SrcTime;
+    cout << "Please enter Landing Time:";
+    cin >> DstTime;
+    AirlineTable_.AddAirline(AirlineID, SrcPosition, DstPosition, SrcTime, DstTime);
+    cout << "Successfully Add an Airline" << endl;
 }
+
 void Worker::EraseAirlineWork() {
     std::string AirlineID;
     int tmp = 1;
@@ -492,8 +506,8 @@ void Worker::EraseAirlineWork() {
             firstrun = false;
         }
         cin >> AirlineID;
-        int rev=AirlineTable_.CheckAirline(AirlineID);
-        if (rev==0) {
+        int rev = AirlineTable_.CheckAirline(AirlineID);
+        if (rev == 0) {
             cout << "Airline Does Not Exist" << endl;
             if (ErrorAndRetry("ReEnter AirlineID(y/n)?"))
                 tmp = 1;
@@ -503,12 +517,13 @@ void Worker::EraseAirlineWork() {
                 return;
             }
         } else {
-            cout<<"Erasing "<<AirlineID<<" ..."<<endl;
-            tmp=0;
+            cout << "Erasing " << AirlineID << " ..." << endl;
+            tmp = 0;
         }
     }
     AirlineTable_.EraseAirline(AirlineID);
 }
+
 void Worker::AddSeatWork() {
     std::string AirlineID;
     int tmp = 1;
@@ -519,8 +534,8 @@ void Worker::AddSeatWork() {
             firstrun = false;
         }
         cin >> AirlineID;
-        int rev=AirlineTable_.CheckAirline(AirlineID);
-        if (rev==0) {
+        int rev = AirlineTable_.CheckAirline(AirlineID);
+        if (rev == 0) {
             cout << "Airline Does Not Exist" << endl;
             if (ErrorAndRetry("ReEnter AirlineID(y/n)?"))
                 tmp = 1;
@@ -530,17 +545,17 @@ void Worker::AddSeatWork() {
                 return;
             }
         } else {
-            cout<<"Adding Seat to "<<AirlineID<<" ..."<<endl;
-            tmp=0;
+            cout << "Adding Seat to " << AirlineID << " ..." << endl;
+            tmp = 0;
         }
     }
-    string SeatId,SeatLevel;
-    cout<<"Entering SeatId:";
-    tmp=1;
+    string SeatId, SeatLevel;
+    cout << "Entering SeatId:";
+    tmp = 1;
     while (tmp) {
         cin >> SeatId;
-        int rev=Tickets_.CheckSeat(AirlineID,SeatId);
-        if (rev==0) {
+        int rev = Tickets_.CheckSeat(AirlineID, SeatId);
+        if (rev == 0) {
             cout << "SeatId Already Exist" << endl;
             if (ErrorAndRetry("ReEnter SeatID(y/n)?"))
                 tmp = 1;
@@ -550,14 +565,15 @@ void Worker::AddSeatWork() {
                 return;
             }
         } else {
-            tmp=0;
+            tmp = 0;
         }
     }
-    cout<<"Entering SeatLevel:";
-    cin>>SeatLevel;
-    Tickets_.AddSeat(AirlineID,SeatId,SeatLevel);
-    cout<<"Successfully Add Seats"<<endl;
+    cout << "Entering SeatLevel:";
+    cin >> SeatLevel;
+    Tickets_.AddSeat(AirlineID, SeatId, SeatLevel);
+    cout << "Successfully Add Seats" << endl;
 }
+
 void Worker::EraseSeatWork() {
     std::string AirlineID;
     int tmp = 1;
@@ -568,8 +584,8 @@ void Worker::EraseSeatWork() {
             firstrun = false;
         }
         cin >> AirlineID;
-        int rev=AirlineTable_.CheckAirline(AirlineID);
-        if (rev==0) {
+        int rev = AirlineTable_.CheckAirline(AirlineID);
+        if (rev == 0) {
             cout << "Airline Does Not Exist" << endl;
             if (ErrorAndRetry("ReEnter AirlineID(y/n)?"))
                 tmp = 1;
@@ -579,17 +595,17 @@ void Worker::EraseSeatWork() {
                 return;
             }
         } else {
-            cout<<"Erasing Seat of "<<AirlineID<<" ..."<<endl;
-            tmp=0;
+            cout << "Erasing Seat of " << AirlineID << " ..." << endl;
+            tmp = 0;
         }
     }
     string SeatId;
-    cout<<"Entering SeatId:";
-    tmp=1;
+    cout << "Entering SeatId:";
+    tmp = 1;
     while (tmp) {
         cin >> SeatId;
-        int rev=Tickets_.CheckSeat(AirlineID,SeatId);
-        if (rev==1) {
+        int rev = Tickets_.CheckSeat(AirlineID, SeatId);
+        if (rev == 1) {
             cout << "SeatId Does not Exist" << endl;
             if (ErrorAndRetry("ReEnter SeatID(y/n)?"))
                 tmp = 1;
@@ -599,18 +615,20 @@ void Worker::EraseSeatWork() {
                 return;
             }
         } else {
-            tmp=0;
+            tmp = 0;
         }
     }
-    Tickets_.EraseSeat(AirlineID,SeatId);
-    cout<<"Successfully Erase Seats"<<endl;
+    Tickets_.EraseSeat(AirlineID, SeatId);
+    cout << "Successfully Erase Seats" << endl;
 }
+
 void Worker::AdminLogoutWork(std::string UserName, int UUID_) {
     AdminLogin_.LogOut(UUID_);
-    permission=0;
-    myUUID=0;
-    cout<<"Sucessfully Logout"<<endl;
+    permission = 0;
+    myUUID = 0;
+    cout << "Sucessfully Logout" << endl;
 }
+
 void Worker::AdminWork() {
     if (permission < 2) {
         cout << "Access Denied,Please reLogin" << endl;
@@ -648,7 +666,7 @@ void Worker::AdminWork() {
             EraseSeatWork();
             break;
         default:
-            UserLogoutWork(UserName,myUUID);
+            UserLogoutWork(UserName, myUUID);
             return;
             break;
     }
