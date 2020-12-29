@@ -159,7 +159,9 @@ int Tickets::NewAirLine(std::string AirlineID) {
     Tables[AirlineID].AddFields(tmp1);
     return 1;
 }
-
+int Tickets::EraseAirline(std::string AirlineID){
+    Tables.erase(AirlineID);
+}
 int Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
     if (Tables.count(AirLineID))
         return 0;

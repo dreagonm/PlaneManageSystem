@@ -114,7 +114,11 @@ public:
      * @param AirlineID
      */
     int NewAirLine(std::string AirlineID);
-
+    /**
+     * @brief 删除一条航班线路
+     * @param AirlineID
+     */
+    int EraseAirline(std::string AirlineID);
     /**
      * @brief 新建一条航班线路并且直接添加坐席数据
      * @param AirlineID

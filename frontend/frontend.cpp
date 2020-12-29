@@ -534,6 +534,7 @@ void Worker::EraseAirlineWork() {
         }
     }
     AirlineTable_.EraseAirline(AirlineID);
+    Tickets_.EraseAirline(AirlineID);
 }
 
 void Worker::AddSeatWork() {
