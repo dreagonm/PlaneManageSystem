@@ -201,11 +201,8 @@ void Worker::ViewAirlineWork() {
            "|-------------|-------------|-------------|----------------|----------------|\n");
     for (auto it = rev.begin(); it != rev.end(); it++) {
         printf("|-------------|-------------|-------------|----------------|----------------|\n");
-        cout.width(12);
-        cout << "|" << (*it)["AirlineID"] << " |" << (*it)["SrcPosition"] << " |" << (*it)["DstPosition"] << " |";
-        cout.width(15);
-        cout << (*it)["SrcTime"] << " |" << (*it)["DstTime"] << " |" << endl;
-        cout.width(0);
+        cout << "|" <<setw(12)<< (*it)["AirlineID"] << " |"<<setw(12) << (*it)["SrcPosition"] << " |" <<setw(12)<< (*it)["DstPosition"] << " |";
+        cout <<setw(15)<< (*it)["SrcTime"] << " |" <<setw(15)<< (*it)["DstTime"] << " |" << endl;
         printf("|-------------|-------------|-------------|----------------|----------------|\n");
     }
 }
