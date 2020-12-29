@@ -241,7 +241,7 @@ void Worker::ViewRemainTicketWork() {
             if (t % 3 == 0)
                 cout << endl;
         }
-        cout<<"----------------------------"<<endl;
+        cout<<endl<<"----------------------------"<<endl;
     }
 }
 
@@ -275,6 +275,7 @@ void Worker::OrderWork(std::string UserName) {
                 continue;
             }
         } else if (!EnterSeatID) {
+            cout<<"Enter SeatID"<<endl;
             cin >> SeatID;
             SeatData = Tickets_.GetSeat(AirlineID, SeatID);
             if (SeatData.size() <= 0) {
@@ -303,7 +304,8 @@ void Worker::OrderWork(std::string UserName) {
     /// TODO 错误处理
     UserTickets_.OrderTicket(UserName, AirlineID, SeatID, SeatLevel, Passenger, HasFood, HasPackage, OrderID,
                              Data["SrcPosition"], Data["DstPosition"], Data["SrcTime"], Data["DstTime"]);
-    /// TODO 机票输出
+    cout<<"succefully Ordered Ticket"<<endl;
+    GenerateAnTicket(AirlineID,SeatID,SeatLevel,Passenger,HasFood,HasPackage,OrderID,Data["SrcPosition"],Data["DstPosition"],Data["SrcTime"],Data["DstTime"]);
 }
 
 void Worker::CancelWork(std::string UserName) {
