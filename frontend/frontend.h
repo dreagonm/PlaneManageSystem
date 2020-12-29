@@ -91,6 +91,8 @@ public:
 
     void AdminLogoutWork(std::string UserName, int UUID_);
 
+    void ViewSeatsWork();
+
     void AdminWork();
 
 private:

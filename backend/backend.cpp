@@ -280,6 +280,22 @@ std::vector<std::map<std::string, std::string>> Tickets::GetTickets(std::string 
     return Rev;
 }
 
+std::vector<std::map<std::string, std::string>> Tickets::GetSeats(std::string AirlineID) {
+    std::vector<std::map<std::string, std::string>> Rev;
+    Rev.clear();
+    if (Tables.count(AirlineID) == 0)
+        throw "Airline Does not Exist";
+    std::set<int> tmp = Tables[AirlineID].GetAllRecordsWithSpecialField("SeatId");
+    std::map<std::string, std::string> data_tmp;
+    data_tmp.clear();
+    for (auto it = tmp.begin(); it != tmp.end(); it++) {
+        data_tmp = Tables[AirlineID].GetRecord((*it));
+        Rev.push_back(data_tmp);
+    }
+    return Rev;
+}
+
+
 int Tickets::CheckSeat(std::string AirlineID, std::string SeatId) {
     if(Tables.count(AirlineID)==0)
         return 0;

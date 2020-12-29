@@ -662,12 +662,55 @@ void Worker::EraseSeatWork() {
     cout << "Successfully Erase Seats" << endl;
 }
 
+void Worker::ViewSeatsWork() {
+    std::string AirlineID;
+    int tmp = 1;
+    vector<map<string, string>> Data;
+    Data.clear();
+    while (tmp) {
+        cout << "Enter AirlineID:";
+        cin >> AirlineID;
+        try{
+            Data = Tickets_.GetSeats(AirlineID);
+        }
+        catch (const char *s){
+            cout<<s<<endl;
+            if (ErrorAndRetry("ReEnter AirlineID(y/n)?")){
+                tmp = 1;
+                continue;
+            }
+            else {
+                cout << "Failed to Get Ordered Tickets" << endl;
+                tmp = 0;
+                return;
+            }
+        }
+        if (Data.size() <= 0) {
+            cout << "There is No Seats" << endl;
+            return;
+        } else {
+            cout << "Getting Seats Of " << AirlineID << " ..." << endl;
+            tmp = 0;
+        }
+    }
+    cout << "---------------------------" << endl;
+    cout << "| "<<setw(10) << "SeatID" << " | " << setw(10) << "SeatLevel" << " |" << endl;
+    cout << "---------------------------" << endl;
+    for (int i = 0; i < Data.size(); i++) {
+        cout << "---------------------------" << endl;
+        cout << "| "<<setw(10) << Data[i]["SeatId"] << " | " << setw(10) << Data[i]["SeatLevel"] << " |" << endl;
+        if (i == Data.size() - 1)
+            cout << "---------------------------" << endl;
+    }
+}
+
 void Worker::AdminLogoutWork(std::string UserName, int UUID_) {
     AdminLogin_.LogOut(UUID_);
     permission = 0;
     myUUID = 0;
     cout << "Sucessfully Logout" << endl;
 }
+
 
 void Worker::AdminWork() {
     if (permission < 2) {
@@ -684,7 +727,8 @@ void Worker::AdminWork() {
            "| 2.Erase an Airline      |\n"
            "| 3.Add Seats             |\n"
            "| 4.Erase Seats           |\n"
-           "| 5.Logout and Exit       |\n"
+           "| 5.View Seats            |\n"
+           "| 6.Logout and Exit       |\n"
            "---------------------------\n");
     cout << "Select Your Operation:_\b";
     int opt;
@@ -704,6 +748,9 @@ void Worker::AdminWork() {
             break;
         case 4:
             EraseSeatWork();
+            break;
+        case 5:
+            ViewSeatsWork();
             break;
         default:
             UserLogoutWork(UserName, myUUID);

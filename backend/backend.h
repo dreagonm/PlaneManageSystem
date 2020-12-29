@@ -177,6 +177,12 @@ public:
      */
     std::vector<std::map<std::string,std::string>> GetTickets(std::string AirlineID);
     /**
+     * @brief 查询一个航班的全部座位
+     * @param AirlineID
+     * @return
+     */
+    std::vector<std::map<std::string, std::string>> GetSeats(std::string AirlineID);;
+    /**
      * @brief 查询座位号是否存在
      * @param AirlineID
      * @param SeatId
