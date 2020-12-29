@@ -66,9 +66,11 @@ int UserLogin::Register(std::string _UserName, std::string _UserPassword) {
     if (Tables["UserInfo"].FilterForRecord("UserName", _UserName) != -1)
         return 1;//用户名重复
     std::vector<std::string> tmp1;
+    tmp1.clear();
     tmp1.push_back("UserName");
     tmp1.push_back("UserPassword");
     std::vector<std::string> tmp2;
+    tmp2.clear();
     tmp2.push_back(_UserName);
     tmp2.push_back(_UserPassword);
     Tables["UserInfo"].AddRecord(tmp1, tmp2);

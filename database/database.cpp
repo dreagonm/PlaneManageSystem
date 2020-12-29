@@ -141,15 +141,15 @@ std::vector<int> Table::FilterForRecords(std::vector<std::string> _Fields, std::
 }
 
 void Table::AddRecord() {
-    PrimaryKey++;
     Records[PrimaryKey] = Record();
+    PrimaryKey++;
 }
 
 void Table::AddRecord(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
-    PrimaryKey++;
     Records[PrimaryKey] = Record(_Fields, _Vals);
     for (int i = 0; i < _Fields.size(); i++)
         SearchRecord[_Fields[i]].insert(PrimaryKey);
+    PrimaryKey++;
 }
 
 void Table::EraseRecord(int pk) {
