@@ -271,6 +271,14 @@ int Tickets::AddSeat(std::string AirlineID, std::string SeatId,std::string SeatL
     tmp1.push_back("SeatId"),tmp2.push_back(SeatId);
     tmp1.push_back("SeatLevel"),tmp2.push_back(SeatLevel);
     Tables[AirlineID].AddRecord(tmp1,tmp2);
+    return 1;
+}
+int Tickets::EraseSeat(std::string AirlineID, std::string SeatId) {
+    int tmp=Tables[AirlineID].FilterForRecord("SeatId",SeatId);
+    if(tmp==-1)
+        return 0;
+    Tables[AirlineID].EraseRecord(tmp);
+    return 1;
 }
 
 AirlineTable::AirlineTable() : Data_Base() {

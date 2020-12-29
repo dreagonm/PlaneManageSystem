@@ -173,14 +173,27 @@ public:
      */
     std::vector<std::map<std::string,std::string>> GetTickets(std::string AirlineID);
     /**
+     * @brief 查询座位号是否存在
+     * @param AirlineID
+     * @param SeatId
+     * @return
+     */
+    int CheckSeat(std::string AirlineID, std::string SeatId);
+    /**
      * @brief 新增座位
      * @param AirlineID
      * @param SeatId
      * @return
      * @details 要保证AirlineID存在
      */
-    int CheckSeat(std::string AirlineID, std::string SeatId);
     int AddSeat(std::string AirlineID,std::string SeatId,std::string SeatLevel);
+    /**
+     * @brief 删除座位
+     * @param AirlineID
+     * @param SeatId
+     * @details 要保证seatID存在
+     */
+    int EraseSeat(std::string AirlineID,std::string SeatId);
 };
 
 class AirlineTable : public Data_Base {
