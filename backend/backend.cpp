@@ -195,6 +195,8 @@ std::map<std::string, std::vector<std::string> > Tickets::GetRemain(std::string 
 std::map<std::string, std::string> Tickets::GetSeat(std::string AirlineID, std::string SeatID) {
     std::map<std::string, std::string> rev;
     rev.clear();
+    if(Tables.count(AirlineID)==0)
+        return rev;
     int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatID);
     if (tmp == -1)
         return rev;
@@ -272,6 +274,8 @@ std::vector<std::map<std::string, std::string>> Tickets::GetTickets(std::string 
 }
 
 int Tickets::CheckSeat(std::string AirlineID, std::string SeatId) {
+    if(Tables.count(AirlineID)==0)
+        return 0;
     int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatId);
     if (tmp != -1)
         return 0;
@@ -279,6 +283,8 @@ int Tickets::CheckSeat(std::string AirlineID, std::string SeatId) {
 }
 
 int Tickets::AddSeat(std::string AirlineID, std::string SeatId, std::string SeatLevel) {
+    if(!Tables.count(AirlineID))
+        return 0;
     int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatId);
     if (tmp != -1)
         return 0;
@@ -291,6 +297,8 @@ int Tickets::AddSeat(std::string AirlineID, std::string SeatId, std::string Seat
 }
 
 int Tickets::EraseSeat(std::string AirlineID, std::string SeatId) {
+    if(Tables.count(AirlineID)==0)
+        return 0;
     int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatId);
     if (tmp == -1)
         return 0;
@@ -339,6 +347,8 @@ std::string AirlineTable::EraseAirline(std::string AirlineID) {
 std::vector<std::map<std::string, std::string>> AirlineTable::GetAirline(void) {
     std::vector<std::map<std::string, std::string>> rev;
     rev.clear();
+    if(Tables.count("Airlines")==0)
+        return rev;
     int tmp = Tables["Airlines"].GetLastestRecord() + 1;
     for (int i = 0; i < tmp; i++) {
         auto TMP = Tables["Airlines"].GetRecord(i);

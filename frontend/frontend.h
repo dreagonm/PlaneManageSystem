@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstdio>
 #include <iomanip>
+#include "../global_config.h"
 
 using namespace std;
 extern UserLogin UserLogin_;
@@ -69,7 +70,10 @@ public:
                           std::string SrcTime, std::string DstTime);
 
     void UserLogoutWork(std::string UserName, int UUID_);
+#ifdef ADMINPASS
 
+    void Become(std::string);
+#endif
     /**
      * @brief 处理用户操作
      */

