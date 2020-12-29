@@ -210,6 +210,12 @@ public:
       * @return
       */
      std::map<std::string,std::string> GetAirline(std::string AirlineID);
+     /**
+      * @brief 查询航班是否存在
+      * @param AirlineID
+      * @return
+      */
+     bool CheckAirline(std::string AirlineID);
 };
 
 class UserTickets : public Data_Base {

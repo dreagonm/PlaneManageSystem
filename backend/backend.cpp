@@ -315,6 +315,12 @@ std::map<std::string,std::string> AirlineTable::GetAirline(std::string AirlineID
     return rev;
 }
 
+bool AirlineTable::CheckAirline(std::string AirlineID) {
+    int tmp=Tables["Airlines"].FilterForRecord("AirlineID",AirlineID);
+    if(tmp==-1)
+        return false;
+    return true;
+}
 UserTickets::UserTickets() {
 
 }
