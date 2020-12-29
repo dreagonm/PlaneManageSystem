@@ -27,7 +27,11 @@ int Worker::Getpermission(){
 bool Worker::ErrorAndRetry(std::string Message = "Retry?(y/n)") {
     cout << Message << endl;
     string opt = "a";
+    bool tmp=false;
     while (opt != "y" && opt != "n") {
+        if(tmp)
+            cout<<"Retry"<<endl;
+        tmp= true;
         cin >> opt;
         if (opt == "y") {
             return true;
@@ -448,15 +452,24 @@ void Worker::ViewAirlineOrderWork() {
             firstrun = false;
         }
         cin >> AirlineID;
-        Data = Tickets_.GetTickets(AirlineID);
-        if (Data.size() <= 0) {
-            cout << "Airline Does not Exist" << endl;
-            if (ErrorAndRetry("ReEnter AirlineID(y/n)?"))
+        try{
+            Data = Tickets_.GetTickets(AirlineID);
+        }
+        catch (const char *s){
+            cout<<s<<endl;
+            if (ErrorAndRetry("ReEnter AirlineID(y/n)?")){
                 tmp = 1;
+                continue;
+            }
             else {
                 cout << "Failed to Get Ordered Tickets" << endl;
                 tmp = 0;
+                return;
             }
+        }
+        if (Data.size() <= 0) {
+            cout << "There is No Order" << endl;
+            return;
         } else {
             cout << "Getting Ordered Tickets Of " << AirlineID << " ..." << endl;
             tmp = 0;
