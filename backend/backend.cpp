@@ -188,7 +188,7 @@ std::map<std::string, std::vector<std::string> > Tickets::GetRemain(std::string 
     std::map<std::string, std::vector<std::string> > rev;
     rev.clear();
     if (Tables.count(AirlineID) == 0)
-        return rev;
+        throw "Airline Does not Exist";
     std::set<int> tmp = Tables[AirlineID].GetAllRecordsWithoutSpecialField("Passenger");
     std::map<std::string, std::string> data_tmp;
     data_tmp.clear();
@@ -236,12 +236,12 @@ std::string Tickets::GenerateOrderID(void) {
 std::string Tickets::OrderTickets(std::string AirlineID, std::string SeatID, std::string Passenger, bool HasFood,
                                   bool HasPackage) {
     if (Tables.count(AirlineID) == 0)
-        return "Airline Does not Exist";
+        throw "Airline Does not Exist";
     int tmpID = Tables[AirlineID].FilterForRecord("SeatId", SeatID);
     if (tmpID == -1)
-        return "SeatID Does not Exist";
+        throw "SeatID Does not Exist";
     if (Tables[AirlineID].GetRecordField(tmpID, "Passenger") != "")
-        return "Seat Has Already Been Ordered";
+        throw "Seat Has Already Been Ordered";
     std::string OrderID = GenerateOrderID();
     Tables[AirlineID].AddRecordField(tmpID, "Passenger", Passenger);
     Tables[AirlineID].AddRecordField(tmpID, "HasFood", Bool_Serializer(HasFood));

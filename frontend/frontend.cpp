@@ -222,16 +222,24 @@ void Worker::ViewRemainTicketWork() {
     while (tmp) {
         cout << "Enter AirlineID:"<<endl;
         cin >> AirlineID;
-        Data = Tickets_.GetRemain(AirlineID);
-        if (Data.size() <= 0) {
-            cout << "Airline Does not Exist" << endl;
-            if (ErrorAndRetry("ReEnter AirlineID(y/n)?"))
+        try {
+            Data = Tickets_.GetRemain(AirlineID);
+        }
+        catch (const char *s){
+            cout << s << endl;
+            if (ErrorAndRetry("ReEnter AirlineID(y/n)?")){
                 tmp = 1;
+                continue;
+            }
             else {
                 cout << "Failed to Get Remain Tickets" << endl;
                 tmp = 0;
                 return;
             }
+        }
+        if (Data.size() <= 0) {
+            cout << "No Remain Tickets" << endl;
+            return;
         } else {
             cout << "Getting Remain Tickets Of " << AirlineID << " ..." << endl;
             tmp = 0;
@@ -304,8 +312,14 @@ void Worker::OrderWork(std::string UserName) {
             break;
         }
     }
-    OrderID = Tickets_.OrderTickets(AirlineID, SeatID, Passenger, HasFood, HasPackage);
-    /// TODO 错误处理
+    try{
+        OrderID = Tickets_.OrderTickets(AirlineID, SeatID, Passenger, HasFood, HasPackage);
+    }
+    catch(const char *s){
+        cout<<s<<endl;
+        cout<<"Failed to Order Ticket"<<endl;
+        return;
+    }
     UserTickets_.OrderTicket(UserName, AirlineID, SeatID, SeatLevel, Passenger, HasFood, HasPackage, OrderID,
                              Data["SrcPosition"], Data["DstPosition"], Data["SrcTime"], Data["DstTime"]);
     cout<<"succefully Ordered Ticket"<<endl;
