@@ -256,6 +256,22 @@ std::vector<std::map<std::string,std::string>> Tickets::GetTickets(std::string A
     }
     return Rev;
 }
+int Tickets::CheckSeat(std::string AirlineID, std::string SeatId) {
+    int tmp=Tables[AirlineID].FilterForRecord("SeatId",SeatId);
+    if(tmp!=-1)
+        return 0;
+    return 1;
+}
+int Tickets::AddSeat(std::string AirlineID, std::string SeatId,std::string SeatLevel) {
+    int tmp=Tables[AirlineID].FilterForRecord("SeatId",SeatId);
+    if(tmp!=-1)
+        return 0;
+    std::vector<std::string> tmp1,tmp2;
+    tmp1.clear(),tmp2.clear();
+    tmp1.push_back("SeatId"),tmp2.push_back(SeatId);
+    tmp1.push_back("SeatLevel"),tmp2.push_back(SeatLevel);
+    Tables[AirlineID].AddRecord(tmp1,tmp2);
+}
 
 AirlineTable::AirlineTable() : Data_Base() {
     NewTable("Airlines");

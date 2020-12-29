@@ -172,6 +172,15 @@ public:
      * @return
      */
     std::vector<std::map<std::string,std::string>> GetTickets(std::string AirlineID);
+    /**
+     * @brief 新增座位
+     * @param AirlineID
+     * @param SeatId
+     * @return
+     * @details 要保证AirlineID存在
+     */
+    int CheckSeat(std::string AirlineID, std::string SeatId);
+    int AddSeat(std::string AirlineID,std::string SeatId,std::string SeatLevel);
 };
 
 class AirlineTable : public Data_Base {
