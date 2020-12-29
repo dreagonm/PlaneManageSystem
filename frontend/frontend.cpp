@@ -327,6 +327,10 @@ void Worker::CancelWork(std::string UserName) {
                 return;
             }
         }
+        else{
+            cout<<"Canceling..."<<endl;
+            break;
+        }
     }
     string AirlineId = UserTickets_.GetAirlineID(UserName, TicketsId);
     Tickets_.CancelOrder(AirlineId, OrdId);
