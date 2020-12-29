@@ -9,7 +9,7 @@ Record::Record() {
 }
 
 Record::Record(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
-    for (int i = 0; i < Fields.size(); i++) {
+    for (int i = 0; i < _Fields.size(); i++) {
         Fields.insert(_Fields[i]);
         Data[_Fields[i]] = _Vals[i];
     }
