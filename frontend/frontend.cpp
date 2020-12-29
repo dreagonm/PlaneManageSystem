@@ -21,7 +21,9 @@ Worker::~Worker() {
 void Worker::InitWork() {
     cout << "Welcome to PlaneManageSystem" << endl;
 }
-
+int Worker::Getpermission(){
+    return permission;
+}
 bool Worker::ErrorAndRetry(std::string Message = "Retry?(y/n)") {
     cout << Message << endl;
     string opt = "a";

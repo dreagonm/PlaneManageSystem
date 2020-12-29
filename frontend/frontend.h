@@ -19,6 +19,8 @@ public:
 
     ~Worker();
 
+    int Getpermission();
+
     void InitWork();
 
     /**
