@@ -463,10 +463,10 @@ void Worker::ViewAirlineOrderWork() {
         }
     }
     for (int i = 0; i < Data.size(); i++) {
-        cout << "-----------------" << endl;
-        cout << setw(10) << Data[i]["SeatId"] << " | " << setw(10) << Data[i]["Passenger"] << " |" << endl;
+        cout << "---------------------------" << endl;
+        cout << "| "<<setw(10) << Data[i]["SeatId"] << " | " << setw(10) << Data[i]["Passenger"] << " |" << endl;
         if (i == Data.size() - 1)
-            cout << "-----------------" << endl;
+            cout << "---------------------------" << endl;
     }
 }
 
