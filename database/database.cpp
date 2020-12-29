@@ -155,8 +155,14 @@ void Table::AddRecord(std::vector<std::string> _Fields, std::vector<std::string>
 void Table::EraseRecord(int pk) {
     if (!Records.count(pk))
         return;
-    else
+    else{
+        auto Data=Records[pk];
+        Records[pk].MaintainRecord(Fields);
+        auto data=Records[pk].GetAllFields();
+        for(auto it=data.begin();it!=data.end();it++)
+            SearchRecord[(*it).first].erase(pk);
         Records.erase(pk);
+    }
 }
 
 void Table::EraseRecord(std::vector<std::string> _Fields, std::vector<std::string> _Vals) {
