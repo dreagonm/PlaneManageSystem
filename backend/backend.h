@@ -166,7 +166,12 @@ public:
      * @throw "OrderID Does not Exist" 订单号错误
     */
     std::string CancelOrder(std::string AirlineID, std::string OrderID);
-
+    /**
+     * @brief 获取一个航班的全部订单
+     * @param AirlineID
+     * @return
+     */
+    std::vector<std::map<std::string,std::string>> GetTickets(std::string AirlineID);
 };
 
 class AirlineTable : public Data_Base {

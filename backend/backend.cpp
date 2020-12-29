@@ -236,6 +236,21 @@ std::string Tickets::CancelOrder(std::string AirlineID, std::string OrderID) {
     return "Successfully Canceled Order";
 }
 
+std::vector<std::map<std::string,std::string>> Tickets::GetTickets(std::string AirlineID) {
+    std::vector<std::map<std::string,std::string>> Rev;
+    Rev.clear();
+    if(Tables.count(AirlineID)==0)
+        return Rev;
+    std::set<int> tmp = Tables[AirlineID].GetAllRecordsWithSpecialField("Passenger");
+    std::map<std::string, std::string> data_tmp;
+    data_tmp.clear();
+    for (auto it = tmp.begin(); it != tmp.end(); it++) {
+        data_tmp = Tables[AirlineID].GetRecord((*it));
+        Rev.push_back(data_tmp);
+    }
+    return Rev;
+}
+
 AirlineTable::AirlineTable() : Data_Base() {
     NewTable("Airlines");
     Tables["Airlines"].AddField("AirlineID");
