@@ -161,7 +161,7 @@ void Worker::AdminLoginWork() {
 int Worker::LoginWork() {
     printf("\n"
            "--------------\n"
-           "| 1.Regist |\n"
+           "| 1.Regist   |\n"
            "| 2.User     |\n"
            "| 3.Admin    |\n"
            "| 4.exit     |\n"
