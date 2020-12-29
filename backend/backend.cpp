@@ -4,7 +4,7 @@
 
 #include "backend.h"
 
-std::map<int,std::string> UUIDpool;
+std::map<int, std::string> UUIDpool;
 std::set<std::string> GlobalOrderID;
 
 template<typename T>
@@ -56,12 +56,14 @@ UserLogin::UserLogin() : Data_Base() {
 UserLogin::~UserLogin() {
 
 }
+
 std::string UserLogin::GetUserName(int UUID_) {
-    if(UUIDpool.count(UUID_)==0)
+    if (UUIDpool.count(UUID_) == 0)
         return "";
     else
         return UUIDpool[UUID_];
 }
+
 int UserLogin::Register(std::string _UserName, std::string _UserPassword) {
     if (Tables["UserInfo"].FilterForRecord("UserName", _UserName) != -1)
         return 1;//用户名重复
@@ -87,7 +89,7 @@ int UserLogin::Login(std::string _UserName, std::string _UserPassword) {
             tmpUUID = ((rand() % 39831) << 14) * (rand() % 19260817);
         Tables["UserInfo"].AddRecordField(tmp, "UserUUID", Serializer(tmpUUID));
         ///    UUID_.insert(tmpUUID);
-        UUIDpool[tmpUUID]=_UserName;
+        UUIDpool[tmpUUID] = _UserName;
         return tmpUUID;
     }///密码正确
     else {
@@ -130,7 +132,7 @@ Tickets::~Tickets() {
 }
 
 int Tickets::NewAirLine(std::string AirlineID) {
-    if(Tables.count(AirlineID))
+    if (Tables.count(AirlineID))
         return 0;
     NewTable(AirlineID);
     std::vector<std::string> tmp1;
@@ -145,7 +147,7 @@ int Tickets::NewAirLine(std::string AirlineID) {
 }
 
 int Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, std::vector<std::string> SeatsLevel) {
-    if(Tables.count(AirLineID))
+    if (Tables.count(AirLineID))
         return 0;
     NewTable(AirLineID);
     Tables[AirLineID].AddField("SeatId");
@@ -168,7 +170,7 @@ int Tickets::NewAirLine(std::string AirLineID, std::vector<std::string> Seats, s
 std::map<std::string, std::vector<std::string> > Tickets::GetRemain(std::string AirlineID) {
     std::map<std::string, std::vector<std::string> > rev;
     rev.clear();
-    if(Tables.count(AirlineID)==0)
+    if (Tables.count(AirlineID) == 0)
         return rev;
     std::set<int> tmp = Tables[AirlineID].GetAllRecordsWithoutSpecialField("Passenger");
     std::map<std::string, std::string> data_tmp;
@@ -180,14 +182,14 @@ std::map<std::string, std::vector<std::string> > Tickets::GetRemain(std::string 
     return rev;
 }
 
-std::map<std::string ,std::string > Tickets::GetSeat(std::string AirlineID, std::string SeatID) {
-    std::map<std::string ,std::string > rev;
+std::map<std::string, std::string> Tickets::GetSeat(std::string AirlineID, std::string SeatID) {
+    std::map<std::string, std::string> rev;
     rev.clear();
-    int tmp=Tables[AirlineID].FilterForRecord("SeatId",SeatID);
-    if(tmp==-1)
+    int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatID);
+    if (tmp == -1)
         return rev;
     else
-        rev=Tables[AirlineID].GetRecord(tmp);
+        rev = Tables[AirlineID].GetRecord(tmp);
     return rev;
 }
 
@@ -244,10 +246,10 @@ std::string Tickets::CancelOrder(std::string AirlineID, std::string OrderID) {
     return "Successfully Canceled Order";
 }
 
-std::vector<std::map<std::string,std::string>> Tickets::GetTickets(std::string AirlineID) {
-    std::vector<std::map<std::string,std::string>> Rev;
+std::vector<std::map<std::string, std::string>> Tickets::GetTickets(std::string AirlineID) {
+    std::vector<std::map<std::string, std::string>> Rev;
     Rev.clear();
-    if(Tables.count(AirlineID)==0)
+    if (Tables.count(AirlineID) == 0)
         return Rev;
     std::set<int> tmp = Tables[AirlineID].GetAllRecordsWithSpecialField("Passenger");
     std::map<std::string, std::string> data_tmp;
@@ -258,26 +260,29 @@ std::vector<std::map<std::string,std::string>> Tickets::GetTickets(std::string A
     }
     return Rev;
 }
+
 int Tickets::CheckSeat(std::string AirlineID, std::string SeatId) {
-    int tmp=Tables[AirlineID].FilterForRecord("SeatId",SeatId);
-    if(tmp!=-1)
+    int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatId);
+    if (tmp != -1)
         return 0;
     return 1;
 }
-int Tickets::AddSeat(std::string AirlineID, std::string SeatId,std::string SeatLevel) {
-    int tmp=Tables[AirlineID].FilterForRecord("SeatId",SeatId);
-    if(tmp!=-1)
+
+int Tickets::AddSeat(std::string AirlineID, std::string SeatId, std::string SeatLevel) {
+    int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatId);
+    if (tmp != -1)
         return 0;
-    std::vector<std::string> tmp1,tmp2;
-    tmp1.clear(),tmp2.clear();
-    tmp1.push_back("SeatId"),tmp2.push_back(SeatId);
-    tmp1.push_back("SeatLevel"),tmp2.push_back(SeatLevel);
-    Tables[AirlineID].AddRecord(tmp1,tmp2);
+    std::vector<std::string> tmp1, tmp2;
+    tmp1.clear(), tmp2.clear();
+    tmp1.push_back("SeatId"), tmp2.push_back(SeatId);
+    tmp1.push_back("SeatLevel"), tmp2.push_back(SeatLevel);
+    Tables[AirlineID].AddRecord(tmp1, tmp2);
     return 1;
 }
+
 int Tickets::EraseSeat(std::string AirlineID, std::string SeatId) {
-    int tmp=Tables[AirlineID].FilterForRecord("SeatId",SeatId);
-    if(tmp==-1)
+    int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatId);
+    if (tmp == -1)
         return 0;
     Tables[AirlineID].EraseRecord(tmp);
     return 1;
@@ -320,33 +325,36 @@ std::string AirlineTable::EraseAirline(std::string AirlineID) {
     Tables["Airlines"].EraseRecord(tmp);
     return "Airline Succefully Delete";
 }
-std::vector<std::map<std::string,std::string>> AirlineTable::GetAirline(void){
-    std::vector<std::map<std::string,std::string>> rev;
+
+std::vector<std::map<std::string, std::string>> AirlineTable::GetAirline(void) {
+    std::vector<std::map<std::string, std::string>> rev;
     rev.clear();
-    int tmp=Tables["Airlines"].GetLastestRecord()+1;
-    for(int i=0;i<tmp;i++){
-        auto TMP=Tables["Airlines"].GetRecord(i);
-        if(TMP.size()>0)
+    int tmp = Tables["Airlines"].GetLastestRecord() + 1;
+    for (int i = 0; i < tmp; i++) {
+        auto TMP = Tables["Airlines"].GetRecord(i);
+        if (TMP.size() > 0)
             rev.push_back(TMP);
     }
     return rev;
 }
-std::map<std::string,std::string> AirlineTable::GetAirline(std::string AirlineID){
-    std::map<std::string,std::string> rev;
+
+std::map<std::string, std::string> AirlineTable::GetAirline(std::string AirlineID) {
+    std::map<std::string, std::string> rev;
     rev.clear();
-    int tmp=Tables["Airlines"].FilterForRecord("AirlineID",AirlineID);
-    if(tmp==-1)
+    int tmp = Tables["Airlines"].FilterForRecord("AirlineID", AirlineID);
+    if (tmp == -1)
         return rev;
-    rev=Tables["Airlines"].GetRecord(tmp);
+    rev = Tables["Airlines"].GetRecord(tmp);
     return rev;
 }
 
 bool AirlineTable::CheckAirline(std::string AirlineID) {
-    int tmp=Tables["Airlines"].FilterForRecord("AirlineID",AirlineID);
-    if(tmp==-1)
+    int tmp = Tables["Airlines"].FilterForRecord("AirlineID", AirlineID);
+    if (tmp == -1)
         return false;
     return true;
 }
+
 UserTickets::UserTickets() {
 
 }
@@ -413,25 +421,27 @@ std::vector<std::map<std::string, std::string> > UserTickets::ViewAllTickets(std
     int tmp = Tables[UserName].GetLastestRecord() + 1;
     for (int i = 0; i < tmp; i++) {
         std::map<std::string, std::string> TMP = Tables[UserName].GetRecord(i);
-        if (TMP.size() > 0){
-            TMP["pk"]=i;
+        if (TMP.size() > 0) {
+            TMP["pk"] = i;
             rev.push_back(TMP);
         }
     }
     return rev;
 }
-std::string UserTickets::GetOrderID(std::string UserName,int pk){
-    std::map<std::string ,std::string > Data;
-    Data=Tables[UserName].GetRecord(pk);
-    if(Data.size()<=0)
+
+std::string UserTickets::GetOrderID(std::string UserName, int pk) {
+    std::map<std::string, std::string> Data;
+    Data = Tables[UserName].GetRecord(pk);
+    if (Data.size() <= 0)
         return "";
     else
         return Data["OrderId"];
 }
+
 std::string UserTickets::GetAirlineID(std::string UserName, int pk) {
-    std::map<std::string ,std::string > Data;
-    Data=Tables[UserName].GetRecord(pk);
-    if(Data.size()<=0)
+    std::map<std::string, std::string> Data;
+    Data = Tables[UserName].GetRecord(pk);
+    if (Data.size() <= 0)
         return "";
     else
         return Data["AirlineID"];
