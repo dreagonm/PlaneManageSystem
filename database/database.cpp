@@ -94,7 +94,7 @@ int Table::FilterForRecord(std::string _Field, std::string _Val) {
         bool f = true;
         if (!Records[i].CheckRecord(_Field, _Val)) {
             f = false;
-            break;
+            continue;
         }
         if (f)
             return i;
