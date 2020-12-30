@@ -321,7 +321,7 @@ public:
      * @param UserName
      * @return
      */
-    std::vector<std::map<std::string, std::string>> ViewAllTickets(std::string UserName);
+    std::vector<std::map<std::string, std::string>> ViewAllTickets(std::string UserName,Tickets* tmpDataBase);
     /**
      * @brief 获取订单号
      * @param UserName

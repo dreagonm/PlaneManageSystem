@@ -462,7 +462,9 @@ void Worker::GenerateAnTicket(std::string AirlineID, std::string SeatID, std::st
 void Worker::ViewWork(std::string UserName) {
     cout << "Getting " << UserName << "'s tickets..." << endl;
     UserTickets_=new UserTickets;
-    auto Rev = UserTickets_->ViewAllTickets(UserName);
+    Tickets_=new Tickets;
+    auto Rev = UserTickets_->ViewAllTickets(UserName,Tickets_);
+    delete Tickets_;
     delete UserTickets_;
     for (int i = 0; i < Rev.size(); i++) {
         cout << Rev[i]["pk"] << ":" << endl;
@@ -698,7 +700,7 @@ void Worker::AddSeatWork() {
         Tickets_=new Tickets;
         int rev = Tickets_->CheckSeat(AirlineID, SeatId);
         delete Tickets_;
-        if (rev == 0) {
+        if (rev == 1) {
             cout << "SeatId Already Exist" << endl;
             if (ErrorAndRetry("ReEnter SeatID(y/n)?"))
                 tmp = 1;
@@ -754,7 +756,7 @@ void Worker::EraseSeatWork() {
         Tickets_=new Tickets;
         int rev = Tickets_->CheckSeat(AirlineID, SeatId);
         delete Tickets_;
-        if (rev == 1) {
+        if (rev == 0) {
             cout << "SeatId Does not Exist" << endl;
             if (ErrorAndRetry("ReEnter SeatID(y/n)?"))
                 tmp = 1;

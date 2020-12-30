@@ -301,11 +301,11 @@ std::vector<std::map<std::string, std::string>> Tickets::GetSeats(std::string Ai
 
 int Tickets::CheckSeat(std::string AirlineID, std::string SeatId) {
     if(Tables.count(AirlineID)==0)
-        return 0;
+        throw "AirlineID Does Not Exist";
     int tmp = Tables[AirlineID].FilterForRecord("SeatId", SeatId);
     if (tmp != -1)
-        return 0;
-    return 1;
+        return 1;
+    return 0;
 }
 
 int Tickets::AddSeat(std::string AirlineID, std::string SeatId, std::string SeatLevel) {
@@ -503,7 +503,7 @@ std::string UserTickets::CancelTicket(std::string Username, std::string OrderID)
     return "Successfully Cancel Order";
 }
 
-std::vector<std::map<std::string, std::string> > UserTickets::ViewAllTickets(std::string UserName) {
+std::vector<std::map<std::string, std::string> > UserTickets::ViewAllTickets(std::string UserName,Tickets* tmpDataBase) {
     std::vector<std::map<std::string, std::string> > rev;
     rev.clear();
     if (Tables.count(UserName) == 0)
@@ -511,6 +511,16 @@ std::vector<std::map<std::string, std::string> > UserTickets::ViewAllTickets(std
     int tmp = Tables[UserName].GetLastestRecord() + 1;
     for (int i = 0; i < tmp; i++) {
         std::map<std::string, std::string> TMP = Tables[UserName].GetRecord(i);
+        try{
+            if(tmpDataBase->CheckSeat(TMP["AirlineID"],TMP["SeatId"])==0) {
+                Tables[UserName].EraseRecord(i);
+                continue;
+            }
+        }
+        catch (const char *s){
+            Tables[UserName].EraseRecord(i);
+            continue;
+        }
         if (TMP.size() > 0) {
             TMP["pk"] = Serializer(i);
             rev.push_back(TMP);
