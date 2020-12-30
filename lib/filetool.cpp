@@ -4,7 +4,7 @@
 
 #include "filetool.h"
 FileIO::FileIO(string FileName,bool Mode){
-    FileName="Data/"+FileName;
+    FileName="../Data/"+FileName;
     if(!Mode)
         ifile.open(FileName.c_str());
     else

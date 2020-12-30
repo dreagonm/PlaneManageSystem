@@ -4,6 +4,7 @@
 
 #include "database.h"
 
+
 Record::Record() {
 
 }
@@ -416,17 +417,129 @@ std::map<std::string, std::string> Table::GetRecordFields(std::vector<std::strin
         tmp[_Fields[i]] = Records[pk].GetRecordField(_Fields[i]);
     return tmp;
 }
-
-Data_Base::Data_Base() {
-
+void Data_Base::Deserializer_() {
+    string FileName=DataBaseName+".txt";
+    FileIO F(FileName,0);
+    string S,tmpTableName,tmpRecordName;
+    S=F.FileInput();
+    while(1){
+        if(S=="Data_Base:"){
+            S=F.FileInput();
+#ifdef DEBUGDATABASE
+            cout<<"Data_BASENAME:"<<S<<endl;
+#endif
+        }
+        if(S=="Table_Name:"){
+            S=F.FileInput();
+#ifdef DEBUGDATABASE
+            cout<<"Table_NAME:"<<S<<endl;
+#endif
+            NewTable(S);
+            tmpTableName=S;
+        }
+        if(S=="Table_Field_S"){
+            S=F.FileInput();
+            while(S!="Table_Field_T"){
+#ifdef DEBUGDATABASE
+                cout<<"Field:"<<S<<endl;
+#endif
+                Tables[tmpTableName].AddField(S);
+                S=F.FileInput();
+            }
+        }
+        if(S=="RecordS"){
+            Tables[tmpTableName].AddRecord();
+            int tmpID=Tables[tmpTableName].GetLastestRecord();
+            S=F.FileInput();
+            while(1){
+                if(S!="RecordT"){
+                    tmpRecordName=S.substr(0,S.length()-1);
+#ifdef DEBUGDATABASE
+                    cout<<tmpRecordName<<" ";
+#endif
+                    S=F.FileInput();
+#ifdef DEBUGDATABASE
+                    cout<<S<<endl;
+#endif
+                    Tables[tmpTableName].AddRecordField(tmpID,tmpRecordName,S);
+                }
+                else{
+#ifdef DEBUGDATABASE
+                    cout<<"Finish!"<<endl;
+#endif
+                    break;
+                }
+                S=F.FileInput();
+            }
+        }
+        if(S=="EOF"){
+            cout<<"Finish Loading "<<DataBaseName<<endl;
+            break;
+        }
+        S=F.FileInput();
+    }
+}
+Data_Base::Data_Base(std::string BaseName) {
+    DataBaseName=BaseName;
+    string FileName="../Data/"+BaseName+".txt";
+#ifdef DEBUGDATABASE
+    cout<<FileName<<endl;
+#endif
+    if(_access(FileName.c_str(),0)!=-1){
+        std::cout<<"Reading From:"<<FileName<<std::endl;
+        Deserializer_();
+        Isread= true;
+    }
+    else{
+        std::cout<<"Building New:"<<FileName<<std::endl;
+        Isread=false;
+    }
 }
 
 Data_Base::Data_Base(const Data_Base &rhs) {
     Tables = rhs.Tables;
 }
-
+void Data_Base::Serializer_() {
+    string FileName=DataBaseName+".txt";
+#ifdef DEBUGDATABASE
+    cout<<"Outputing To "<<FileName<<endl;
+#endif
+    FileIO F(FileName,1);
+    F.FileOutput("Data_Base: ");
+    F.FileOutput(DataBaseName);
+    F.FileOutput("\n");
+    for(auto it=Tables.begin();it!=Tables.end();it++){
+        F.FileOutput("Table_Name: ");
+        F.FileOutput((*it).first);
+        F.FileOutput("\n");
+        F.FileOutput("Table_Field_S\n");
+        auto tmpset=(*it).second.GetAllFields();
+        for(auto itt=tmpset.begin();itt!=tmpset.end();itt++){
+            F.FileOutput((*itt));
+            F.FileOutput("\n");
+        }
+        F.FileOutput("Table_Field_T\n");
+        int tmpNum=(*it).second.GetLastestRecord()+1;
+        for(int i=0;i<tmpNum;i++){
+            auto tmpData=(*it).second.GetRecord(i);
+            if(tmpData.size()>0){
+                F.FileOutput("RecordS\n");
+                for(auto ittt=tmpData.begin();ittt!=tmpData.end();ittt++) {
+                    F.FileOutput((*ittt).first);
+                    F.FileOutput(": ");
+                    F.FileOutput((*ittt).second);
+                    F.FileOutput("\n");
+                }
+                F.FileOutput("RecordT\n");
+            }
+        }
+        F.FileOutput("TableT\n");
+    }
+    F.FileOutput("EOF\n");
+}
 Data_Base::~Data_Base() {
-
+    cout<<"Saving "<<DataBaseName<<endl;
+    Serializer_();
 }
 
 void Data_Base::NewTable(std::string TableName) {

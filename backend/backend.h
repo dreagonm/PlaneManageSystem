@@ -52,7 +52,7 @@ bool Bool_DeSerializer(std::string x);
 
 class UserLogin : public Data_Base {
 public:
-    UserLogin();
+    UserLogin(string Name="UserLogin");
 
     ~UserLogin();
     /**

@@ -60,11 +60,14 @@ bool Bool_DeSerializer(std::string x) {
     return x == "True";
 }
 
-UserLogin::UserLogin() : Data_Base() {
-    NewTable("UserInfo");
-    Tables["UserInfo"].AddField("UserName");
-    Tables["UserInfo"].AddField("UserPassword");
-    Tables["UserInfo"].AddField("UserUUID");
+UserLogin::UserLogin(string Name) : Data_Base(Name) {
+    if(Isread==0) {
+        cout<<"Building"<<endl;
+        NewTable("UserInfo");
+        Tables["UserInfo"].AddField("UserName");
+        Tables["UserInfo"].AddField("UserPassword");
+        Tables["UserInfo"].AddField("UserUUID");
+    }
 }
 
 UserLogin::~UserLogin() {
@@ -129,7 +132,7 @@ bool UserLogin::QueryStatus(int _UUID) {
     return true;
 }
 
-AdminLogin::AdminLogin() : UserLogin() {
+AdminLogin::AdminLogin() : UserLogin("AdminLogin") {
 
 }
 
@@ -137,7 +140,7 @@ AdminLogin::~AdminLogin() {
 
 }
 
-Tickets::Tickets() {
+Tickets::Tickets():Data_Base("Tickets") {
 
 }
 
@@ -329,13 +332,16 @@ int Tickets::EraseSeat(std::string AirlineID, std::string SeatId) {
     return 1;
 }
 
-AirlineTable::AirlineTable() : Data_Base() {
-    NewTable("Airlines");
-    Tables["Airlines"].AddField("AirlineID");
-    Tables["Airlines"].AddField("SrcPosition");
-    Tables["Airlines"].AddField("DstPosition");
-    Tables["Airlines"].AddField("SrcTime");
-    Tables["Airlines"].AddField("DstTime");
+AirlineTable::AirlineTable() : Data_Base("AirlineTable") {
+    if(Isread==0) {
+        cout<<"Building AirlineTable..."<<endl;
+        NewTable("Airlines");
+        Tables["Airlines"].AddField("AirlineID");
+        Tables["Airlines"].AddField("SrcPosition");
+        Tables["Airlines"].AddField("DstPosition");
+        Tables["Airlines"].AddField("SrcTime");
+        Tables["Airlines"].AddField("DstTime");
+    }
 }
 
 AirlineTable::~AirlineTable() {
@@ -398,7 +404,7 @@ bool AirlineTable::CheckAirline(std::string AirlineID) {
     return true;
 }
 
-UserTickets::UserTickets() {
+UserTickets::UserTickets():Data_Base("UserTickets") {
 
 }
 

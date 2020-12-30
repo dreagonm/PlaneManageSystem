@@ -14,6 +14,10 @@
 #include <string>
 #include <algorithm>
 #include <iterator>
+#include "../lib/filetool.h"
+#include <io.h>
+#include <iostream>
+#include "../global_config.h"
 class Record {
 public:
     Record();
@@ -363,10 +367,18 @@ private:
 
 class Data_Base {
 protected:
-    Data_Base();
+    /**
+     * @brief 从文件读取
+     */
+    void Deserializer_();
+    Data_Base(std::string DataBaseName);
 
     Data_Base(const Data_Base &rhs);
 
+    /**
+     * @brief 保存到文件
+     */
+    void Serializer_();
     ~Data_Base();
 
     /**
@@ -387,9 +399,10 @@ protected:
      * @param TableName
      */
     void EraseTable(std::string TableName);
-
 protected:
     std::map<std::string, Table> Tables;
+    std::string DataBaseName;
+    bool Isread;
 };
 
 #endif //PLANEMANAGESYSTEM_DATABASE_H
