@@ -1,0 +1,32 @@
+Data_Base: Tickets
+Table_Name: 123
+Table_Field_S
+HasFood
+HasPackageTransform
+OrderId
+Passenger
+SeatId
+SeatLevel
+Table_Field_T
+TableT
+Table_Name: 135
+Table_Field_S
+HasFood
+HasPackageTransform
+OrderId
+Passenger
+SeatId
+SeatLevel
+Table_Field_T
+TableT
+Table_Name: 456
+Table_Field_S
+HasFood
+HasPackageTransform
+OrderId
+Passenger
+SeatId
+SeatLevel
+Table_Field_T
+TableT
+EOF

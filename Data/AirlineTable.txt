@@ -1,0 +1,32 @@
+Data_Base: AirlineTable
+Table_Name: Airlines
+Table_Field_S
+AirlineID
+DstPosition
+DstTime
+SrcPosition
+SrcTime
+Table_Field_T
+RecordS
+AirlineID: 123
+DstPosition: 123
+DstTime: 123
+SrcPosition: 123
+SrcTime: 123
+RecordT
+RecordS
+AirlineID: 456
+DstPosition: 456
+DstTime: 456
+SrcPosition: 456
+SrcTime: 456
+RecordT
+RecordS
+AirlineID: 135
+DstPosition: 135
+DstTime: 135
+SrcPosition: 135
+SrcTime: 135
+RecordT
+TableT
+EOF

@@ -1,0 +1,32 @@
+Data_Base: UserTickets
+Table_Name: qhy
+Table_Field_S
+AirlineID
+DstPosition
+DstTime
+HasFood
+HasPackageTransform
+OrderId
+Passenger
+SeatId
+SeatLevel
+SrcPosition
+SrcTime
+Table_Field_T
+TableT
+Table_Name: yyj
+Table_Field_S
+AirlineID
+DstPosition
+DstTime
+HasFood
+HasPackageTransform
+OrderId
+Passenger
+SeatId
+SeatLevel
+SrcPosition
+SrcTime
+Table_Field_T
+TableT
+EOF

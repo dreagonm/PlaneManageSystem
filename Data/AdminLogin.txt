@@ -1,0 +1,19 @@
+Data_Base: AdminLogin
+Table_Name: UserInfo
+Table_Field_S
+UserName
+UserPassword
+UserUUID
+Table_Field_T
+RecordS
+UserName: Admin
+UserPassword: 123456
+UserUUID: -/,).*)+(,0
+RecordT
+RecordS
+UserName: Admin2
+UserPassword: 123456
+UserUUID: -,)'(0+,,0
+RecordT
+TableT
+EOF

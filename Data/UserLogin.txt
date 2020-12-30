@@ -1,0 +1,18 @@
+Data_Base: UserLogin
+Table_Name: UserInfo
+Table_Field_S
+UserName
+UserPassword
+UserUUID
+Table_Field_T
+RecordS
+UserName: yyj
+UserPassword: 123123
+UserUUID: 1879343104
+RecordT
+RecordS
+UserName: qhy
+UserPassword: 123123
+RecordT
+TableT
+EOF
