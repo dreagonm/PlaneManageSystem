@@ -96,11 +96,11 @@ public:
 
 private:
     int myUUID, permission;
-    UserLogin UserLogin_;
-    AdminLogin AdminLogin_;
-    AirlineTable AirlineTable_;
-    Tickets Tickets_;
-    UserTickets UserTickets_;
+    UserLogin* UserLogin_;
+    AdminLogin* AdminLogin_;
+    AirlineTable* AirlineTable_;
+    Tickets* Tickets_;
+    UserTickets* UserTickets_;
 };
 
 #endif //PLANEMANAGESYSTEM_FRONTEND_H

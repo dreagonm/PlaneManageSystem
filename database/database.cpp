@@ -481,6 +481,18 @@ void Data_Base::Deserializer_() {
 Data_Base::Data_Base(std::string BaseName) {
     DataBaseName=BaseName;
     string FileName="../Data/"+BaseName+".txt";
+    string LockFileName="../Data/"+BaseName+".lock";
+#ifdef DEBUGDATABASE
+    bool first=1;
+#endif
+    while(_access(LockFileName.c_str(),0)!=-1) {
+        ;
+#ifdef DEBUGDATABASE
+        if (first) { first=0;cout<<"waiting"<<endl; };
+#endif
+    }
+    FILE* Filetmp=fopen(LockFileName.c_str(),"w");
+    fclose(Filetmp);
 #ifdef DEBUGDATABASE
     cout<<FileName<<endl;
 #endif
@@ -493,6 +505,7 @@ Data_Base::Data_Base(std::string BaseName) {
         std::cout<<"Building New:"<<FileName<<std::endl;
         Isread=false;
     }
+    remove(LockFileName.c_str());
 }
 
 Data_Base::Data_Base(const Data_Base &rhs) {
@@ -537,8 +550,22 @@ void Data_Base::Serializer_() {
     F.FileOutput("EOF\n");
 }
 Data_Base::~Data_Base() {
+    string FileName="../Data/"+DataBaseName+".txt";
+    string LockFileName="../Data/"+DataBaseName+".lock";
+#ifdef DEBUGDATABASE
+    bool first=1;
+#endif
+    while(_access(LockFileName.c_str(),0)!=-1) {
+        ;
+#ifdef DEBUGDATABASE
+        if (first) { first=0;cout<<"waiting"<<endl; };
+#endif
+    }
+    FILE* Filetmp=fopen(LockFileName.c_str(),"w");
+    fclose(Filetmp);
     cout<<"Saving "<<DataBaseName<<endl;
     Serializer_();
+    remove(LockFileName.c_str());
 }
 
 void Data_Base::NewTable(std::string TableName) {
