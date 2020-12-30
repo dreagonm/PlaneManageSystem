@@ -6,13 +6,19 @@
 #define PLANEMANAGESYSTEM_BACKEND_H
 
 #include "../database/database.h"
-
+#include <queue>
 /// TODO 完善的用户控制
 /// TODO 航线ID与航班ID分离
 /// TODO 用户名与订票名分离
 extern std::map<int,std::string> UUIDpool;
 extern std::set<std::string> GlobalOrderID;
-
+struct QNode{
+    string pk;
+    int dis;
+    bool operator < (const QNode&b) const{
+        return dis>b.dis;
+    }
+};
 template<typename T>
 /**
  * @brief 将单个数据转化为vector
@@ -248,6 +254,21 @@ public:
       * @return
       */
      bool CheckAirline(std::string AirlineID);
+
+    /**
+    * @brief 获取a，b字符串的差异程度
+    * @param a
+    * @param b
+    * @return
+    */
+    int GetDifference(std::string a,std::string b);
+    /**
+     * @brief 单关键词搜索
+     * @param Field
+     * @param SearchWord
+     * @return
+     */
+    priority_queue<QNode> Search(std::string Field,std::string SearchWord);
 };
 
 class UserTickets : public Data_Base {
@@ -316,7 +337,6 @@ public:
      */
     std::string GetAirlineID(std::string UserName,int pk);
 };
-
 
 /// TODO 一些飞机的预设
 /*

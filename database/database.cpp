@@ -22,7 +22,7 @@ Record::Record(const Record &rhs) {
 }
 
 Record::~Record() {
-    /// TODO 保存
+
 }
 
 void Record::AddRecordField(std::string _Field, std::string _Data) {
@@ -79,7 +79,6 @@ Table::Table(std::vector<std::string> _Fields) {
 }
 
 Table::~Table() {
-    /// TODO 文件序列化保存
 
 }
 

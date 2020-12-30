@@ -4,11 +4,6 @@
 
 #include "frontend.h"
 
-UserLogin UserLogin_;
-AdminLogin AdminLogin_;
-AirlineTable AirlineTable_;
-Tickets Tickets_;
-UserTickets UserTickets_;
 
 Worker::Worker() : myUUID(0), permission(0) {
 
@@ -40,7 +35,57 @@ bool Worker::ErrorAndRetry(std::string Message = "Retry?(y/n)") {
         }
     }
 }
-
+void Worker::SearchWork() {
+    cout<<"Searching..."<<endl;
+    cout<<"---------------------------"<<endl;
+    cout<<"| Select Your Search Way: |"<<endl;
+    cout<<"| 1.Airline ID            |"<<endl;
+    cout<<"| 2.From                  |"<<endl;
+    cout<<"| 3.To                    |"<<endl;
+    cout<<"| 4.Launch Time           |"<<endl;
+    cout<<"| 5.Land Time             |"<<endl;
+    cout<<"| 6.Exit                  |"<<endl;
+    cout<<"---------------------------"<<endl;
+    int opt;
+    cin>>opt;
+    string OptField;
+    switch (opt) {
+        case 1:
+            OptField="AirlineID";
+            break;
+        case 2:
+            OptField="SrcPosition";
+            break;
+        case 3:
+            OptField="DstPosition";
+            break;
+        case 4:
+            OptField="SrcTime";
+            break;
+        case 5:
+            OptField="DstTime";
+            break;
+        default:
+            return;
+    }
+    string SearchWord;
+    cout<<"Enter You Search Word"<<endl;
+    cin>>SearchWord;
+    auto Rev=AirlineTable_.Search(OptField,SearchWord);
+    printf("|-------------|-------------|-------------|----------------|----------------|\n"
+           "|  AirlineID  |     From    |     TO      | Launching Time |  Landing Time  |\n"
+           "|-------------|-------------|-------------|----------------|----------------|\n");
+    while(!Rev.empty()){
+        QNode x=Rev.top();
+        Rev.pop();
+        string tmpID=x.pk;
+        auto Data=AirlineTable_.GetAirline(tmpID);
+        printf("|-------------|-------------|-------------|----------------|----------------|\n");
+        cout << "|" <<setw(12)<< Data["AirlineID"] << " |"<<setw(12) << Data["SrcPosition"] << " |" <<setw(12)<< Data["DstPosition"] << " |";
+        cout <<setw(15)<< Data["SrcTime"] << " |" <<setw(15)<< Data["DstTime"] << " |" << endl;
+        printf("|-------------|-------------|-------------|----------------|----------------|\n");
+    }
+}
 void Worker::RegisterWork() {
     int tmp = 1;
     bool firstrun = true;
@@ -424,7 +469,8 @@ void Worker::UserWork() {
            "| 1.Order A Seat       |\n"
            "| 2.Cancel An Order    |\n"
            "| 3.Review Your Order  |\n"
-           "| 4.Logout and Exit    |\n"
+           "| 4.Search             |\n"
+           "| 5.Logout and Exit    |\n"
            "------------------------\n");
     cout << "Select Your Operation:_\b";
     int opt;
@@ -441,6 +487,9 @@ void Worker::UserWork() {
             break;
         case 3:
             ViewWork(UserName);
+            break;
+        case 4:
+            SearchWork();
             break;
 #ifdef ADMINPASS
         case 991:
@@ -728,7 +777,8 @@ void Worker::AdminWork() {
            "| 3.Add Seats             |\n"
            "| 4.Erase Seats           |\n"
            "| 5.View Seats            |\n"
-           "| 6.Logout and Exit       |\n"
+           "| 6.Search                |\n"
+           "| 7.Logout and Exit       |\n"
            "---------------------------\n");
     cout << "Select Your Operation:_\b";
     int opt;
@@ -751,6 +801,9 @@ void Worker::AdminWork() {
             break;
         case 5:
             ViewSeatsWork();
+            break;
+        case 6:
+            SearchWork();
             break;
         default:
             UserLogoutWork(UserName, myUUID);

@@ -403,7 +403,48 @@ bool AirlineTable::CheckAirline(std::string AirlineID) {
         return false;
     return true;
 }
-
+inline int cal(char a,char b){
+    if(a==b)
+        return 0;
+    if(a!=' '&&b!=' '){
+        return abs(a-b)+10;
+    }
+    else if(a==' '&&b==' ')
+        return 0;
+    else
+        return 1;//backspace=1
+}
+int AirlineTable::GetDifference(std::string a,std::string b){
+    int dp[20][20]={0};
+    int la=a.length();
+    int lb=b.length();
+    int backspace=1;
+    for(int i=0;i<=la;i++)
+        dp[i][0]=i*backspace;
+    for(int i=0;i<=lb;i++)
+        dp[0][i]=i*backspace;
+    for(int i=1;i<=la;i++)
+        for(int j=1;j<=lb;j++)
+            dp[i][j]=min(dp[i-1][j-1]+cal(a[i-1],b[j-1]),min(dp[i][j-1]+cal(' ',b[j-1]),dp[i-1][j]+cal(a[i-1],' ')));
+    return dp[la][lb];
+}
+priority_queue<QNode> AirlineTable::Search(std::string Field, std::string SearchWord) {
+    priority_queue<QNode> Ans;
+    while(!Ans.empty())
+        Ans.pop();
+    auto tmpData=Tables["Airlines"].GetAllRecordsWithSpecialField(Field);
+    for(auto it=tmpData.begin();it!=tmpData.end();it++){
+        auto rev=Tables["Airlines"].GetRecordField((*it),Field);
+        auto revID=Tables["Airlines"].GetRecordField((*it),"AirlineID");
+        int diff=GetDifference(SearchWord,rev);
+        QNode tmp;
+        tmp.pk=revID;
+        tmp.dis=diff;
+        cout<<"!diff!"<<diff<<endl;
+        Ans.push(tmp);
+    }
+    return Ans;
+}
 UserTickets::UserTickets():Data_Base("UserTickets") {
 
 }

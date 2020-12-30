@@ -12,7 +12,6 @@
 #include "../global_config.h"
 
 using namespace std;
-extern UserLogin UserLogin_;
 
 class Worker {
 public:
@@ -29,7 +28,7 @@ public:
      * @return
      */
     bool ErrorAndRetry(std::string Message);
-
+    void SearchWork();
     /**
      * @brief 注册
      */
@@ -97,6 +96,11 @@ public:
 
 private:
     int myUUID, permission;
+    UserLogin UserLogin_;
+    AdminLogin AdminLogin_;
+    AirlineTable AirlineTable_;
+    Tickets Tickets_;
+    UserTickets UserTickets_;
 };
 
 #endif //PLANEMANAGESYSTEM_FRONTEND_H
