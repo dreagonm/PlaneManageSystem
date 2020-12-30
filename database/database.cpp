@@ -491,8 +491,8 @@ Data_Base::Data_Base(std::string BaseName) {
         if (first) { first=0;cout<<"waiting"<<endl; };
 #endif
     }
-    FILE* Filetmp=fopen(LockFileName.c_str(),"w");
-    fclose(Filetmp);
+    ofstream fout(LockFileName.c_str());
+    fout.close();
 #ifdef DEBUGDATABASE
     cout<<FileName<<endl;
 #endif
@@ -561,8 +561,8 @@ Data_Base::~Data_Base() {
         if (first) { first=0;cout<<"waiting"<<endl; };
 #endif
     }
-    FILE* Filetmp=fopen(LockFileName.c_str(),"w");
-    fclose(Filetmp);
+    ofstream fout(LockFileName.c_str());
+    fout.close();
     cout<<"Saving "<<DataBaseName<<endl;
     Serializer_();
     remove(LockFileName.c_str());
