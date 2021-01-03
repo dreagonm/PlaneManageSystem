@@ -115,6 +115,9 @@ void Worker::RegisterWork() {
         UserLogin_=new UserLogin;
         tmp = UserLogin_->Register(UserName, PassWord);
         delete UserLogin_;
+        UserTickets_ = new UserTickets;
+        UserTickets_->AddUser(UserName);
+        delete UserTickets_;
         if (tmp == 0) {
             cout << "Succefully Register" << endl;
             UserTickets_=new UserTickets;
